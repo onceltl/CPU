@@ -76,6 +76,7 @@ ARCHITECTURE behavior OF text_generator IS
 	 SIGNAL char_read_value:std_logic_vector(7 downto 0);
 	 SIGNAL char_ascii:std_logic_vector(6 downto 0);
 	 SIGNAL pixel_x,pixel_y:std_logic_vector(9 downto 0);
+	 SIGNAL offset_enable,nxtoffset_enable:std_logic;
 BEGIN
 
 	 font_unit: font_rom
@@ -139,11 +140,13 @@ BEGIN
 			nowR <= "01010";
 			nowC <= "0000000";
 			offset <= "00000";
+			offset_enable <= '0';
 		else
 			if (rising_edge(clk_write)) then 
 				nowR <= nxtR;
 				nowC <= nxtC;
 				offset <= nxtoffset;
+				offset_enable <= nxtoffset_enable;
 			end if;
 		end if;
 	 end process;
@@ -153,6 +156,8 @@ BEGIN
 		nxtR <= nowR ;
 		nxtC <= nowC ;
 		nxtoffset <= offset;
+		nxtoffset_enable<=offset_enable;
+		
 		if (write_enable = '1') then 
 			if (write_char = "00001000") then  -- backspace
 				if (nowC = "0000000") then  -- start of line
@@ -163,8 +168,12 @@ BEGIN
 			elsif (write_char = "00001101") or (write_char = "00001010") then -- \r or \n
 				nxtC <= "0000000";
 				nxtR <= nowR+"00001";
-				if (nowR = "11111") then  -- at 31 queue tail.
+				if (offset_enable = '1') then
+					nxtoffset <= offset+"00001";				
+				end if;
+				if (nowR = "11111") and (offset_enable = '0') then  -- at 31 queue tail.
 					nxtoffset <= offset+"00001";
+					nxtoffset_enable <= '1';
 				end if;
 			elsif (nowC = "1000000") then --at end of column  
 				nxtC <= "1000000";
