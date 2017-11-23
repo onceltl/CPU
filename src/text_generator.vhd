@@ -75,8 +75,14 @@ ARCHITECTURE behavior OF text_generator IS
 	 SIGNAL com_read_addr:std_logic_vector(11 downto 0);
 	 SIGNAL char_read_value:std_logic_vector(7 downto 0);
 	 SIGNAL char_ascii:std_logic_vector(6 downto 0);
-	 SIGNAL pixel_x,pixel_y:std_logic_vector(9 downto 0);
+	 SIGNAL pixel_y:std_logic_vector(9 downto 0);
+	 SIGNAL pixel_x:std_logic_vector(8 downto 0);
 	 SIGNAL offset_enable,nxtoffset_enable:std_logic;
+	 SIGNAL com_write_char:std_logic_vector(7 downto 0);
+	 SIGNAL count_Cursor,nxtcount_Cursor:INTEGER range 0 to 25000000;--counter for display.
+	 SIGNAL display_Cursor,nxtdisplay_Cursor:std_logic;--display or not
+	 SIGNAL Cursor_write_enable:std_logic;
+	 
 BEGIN
 
 	 font_unit: font_rom
@@ -90,7 +96,7 @@ BEGIN
 		clk_write        => clk_write,
       com_write_addr   => com_write_addr,
       com_write_nable  => com_write_nable,
-      char_write_value => write_char,
+      char_write_value => com_write_char,
       com_read_addr    => com_read_addr,
       char_read_value  => char_read_value
 	 );
@@ -99,19 +105,19 @@ BEGIN
 	  font_rom_addr <= char_ascii & pixel_x(3 downto 0);--7+4
 	  font_bit <= font_word(conv_integer(pixel_y(2 downto 0)));
 	 
-
+		
+	  com_write_nable <= (write_enable or Cursor_write_enable);
+	  com_write_addr <=nowR & nowC;
 	  -- from rom and video_ram to get font bit for multiplexing 
 	  
 	  process(row, column)
 	  begin
-	    pixel_x(9 downto 0) <= conv_std_logic_vector(row, 10);
+	    pixel_x(8 downto 0) <= conv_std_logic_vector(row, 9);
 	    pixel_y(9 downto 0) <= conv_std_logic_vector(column, 10);
-	    readR <= pixel_x(9 downto 5)+offset;--/16
+	    readR <= pixel_x(8 downto 4)+offset;--/16
 	    readC <= pixel_y(9 downto 3);--/8
 		 com_read_addr <= readR & readC;
 	  end process;
-	  
-	  
 	 
     -- rgb multiplexing
 	 process(display_enable, font_bit)
@@ -141,25 +147,38 @@ BEGIN
 			nowC <= "0000000";
 			offset <= "00000";
 			offset_enable <= '0';
+			count_Cursor <= 0;
+			display_Cursor <= '0';
 		else
 			if (rising_edge(clk_write)) then 
 				nowR <= nxtR;
 				nowC <= nxtC;
 				offset <= nxtoffset;
 				offset_enable <= nxtoffset_enable;
+				count_Cursor <= nxtcount_Cursor;
+				display_Cursor <= nxtdisplay_Cursor;
 			end if;
 		end if;
 	 end process;
 	  
-	process(write_enable) 
+	process(write_enable,count_Cursor) 
 	begin 
 		nxtR <= nowR ;
 		nxtC <= nowC ;
 		nxtoffset <= offset;
 		nxtoffset_enable<=offset_enable;
+		com_write_char<="00000000";
 		
+		nxtcount_Cursor <= count_Cursor + 1;
+		nxtdisplay_Cursor <= display_Cursor;
+		Cursor_write_enable <= '0';
+			
 		if (write_enable = '1') then 
+			nxtcount_Cursor <= 0;
+			nxtdisplay_Cursor <= '1';
+			Cursor_write_enable<='0';
 			if (write_char = "00001000") then  -- backspace
+				com_write_char<="00000000";
 				if (nowC = "0000000") then  -- start of line
 					nxtC <= "0000000";
 				else 
@@ -168,6 +187,7 @@ BEGIN
 			elsif (write_char = "00001101") or (write_char = "00001010") then -- \r or \n
 				nxtC <= "0000000";
 				nxtR <= nowR+"00001";
+				com_write_char<="00000000";
 				if (offset_enable = '1') then
 					nxtoffset <= offset+"00001";				
 				end if;
@@ -175,15 +195,25 @@ BEGIN
 					nxtoffset <= offset+"00001";
 					nxtoffset_enable <= '1';
 				end if;
+				
 			elsif (nowC = "1000000") then --at end of column  
 				nxtC <= "1000000";
+				com_write_char <= write_char;
 			else 
 				nxtC <= nowC + "0000001";
-			end if;		
+				com_write_char <= write_char;
+			end if;
+		elsif (count_Cursor= 10) then 
+			nxtcount_Cursor <= 0;
+			nxtdisplay_Cursor <= not display_Cursor;
+			Cursor_write_enable <= '1';
+         if (display_Cursor = '0') then 
+			    com_write_char <= "00000000";
+			else
+				 com_write_char <= "00000001";
+			end if;
 		end if;
 		
 	end process;
 	
-	com_write_nable <= write_enable;
-	com_write_addr <=nowR & nowC;
 END behavior;
