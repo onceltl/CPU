@@ -31,34 +31,19 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity vga_test is
   PORT(
-    clk :  IN   STD_LOGIC;  --50M
-	 clk_sys : IN   STD_LOGIC; -- System: 12.5M
-    rst   :  IN   STD_LOGIC;  --rst
-	 
-	 write_ena : IN STD_LOGIC;
-	 write_char : IN STD_LOGIC_VECTOR(15 downto 0);
-	 
-	 
-    h_sync    :  OUT  STD_LOGIC;  --horiztonal sync pulse
-    v_sync    :  OUT  STD_LOGIC;  --vertical sync pulse
+    clk          :  IN   STD_LOGIC;  --50M
+	 clk_write    :  IN   STD_LOGIC; -- System: 12.5M
+    rst          :  IN   STD_LOGIC;  --rst
+	 write_enable :  IN STD_LOGIC;
+	 write_char   :  IN STD_LOGIC_VECTOR(7 downto 0);
+	 h_sync       :  OUT  STD_LOGIC;  --horiztonal sync pulse
+    v_sync       :  OUT  STD_LOGIC;  --vertical sync pulse
     
-	 r, g, b : out STD_LOGIC_VECTOR(2 downto 0)
-	 
-	 
+	 red, green, blue : out STD_LOGIC_VECTOR(2 downto 0)
 	); 
 end vga_test;
 
 architecture behave of vga_test is
-
-  SIGNAL pix_clk : STD_LOGIC;
-  SIGNAL dis_ena : STD_LOGIC;
-  SIGNAL column : INTEGER;
-  SIGNAL row : INTEGER;
-  SIGNAL n_blank : STD_LOGIC;
-  SIGNAL n_sync : STD_LOGIC; 
-  
-  SIGNAL column_minus : INTEGER;
-
   component fredivider_vga
   port(
     clkin:in STD_LOGIC;
@@ -91,20 +76,26 @@ architecture behave of vga_test is
   END component;
   
   COMPONENT text_generator
-  PORT(
-    clkr      :  IN   STD_LOGIC;
-	 clkw      :  IN   STD_LOGIC;
-	 rst      :  IN   STD_LOGIC;
-    disp_ena :  IN   STD_LOGIC;  --display enable ('1' = display time, '0' = blanking time)
-    row      :  IN   INTEGER;    --row pixel coordinate
-    column   :  IN   INTEGER;    --column pixel coordinate
-	 write_ena:  IN   STD_LOGIC;
-	 write_char: IN STD_LOGIC_VECTOR(15 downto 0);
-    red      :  OUT  STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');  --red magnitude output to DAC
-    green    :  OUT  STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');  --green magnitude output to DAC
-    blue     :  OUT  STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0')); --blue magnitude output to DAC
+   PORT(
+    clk_write        :  IN   STD_LOGIC;--write
+	 rst              :  IN   STD_LOGIC;
+    display_enable   :  IN   STD_LOGIC;  --display enable ('1' = display time, '0' = blanking time)
+    row              :  IN   INTEGER;    --row pixel coordinate,0 to 480-1.
+    column           :  IN   INTEGER;    --column pixel coordinate,0 to 640-1.
+	 write_enable 	   :  IN   STD_LOGIC;
+	 write_char       :  IN STD_LOGIC_VECTOR(7 downto 0);
+    red              :  OUT  STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');  --red magnitude output to DAC
+    green            :  OUT  STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');  --green magnitude output to DAC
+    blue             :  OUT  STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0')); --blue magnitude output to DAC
   END component;
-	
+  
+  
+  SIGNAL pix_clk : STD_LOGIC;
+  SIGNAL display_enable : STD_LOGIC;
+  SIGNAL column : INTEGER;
+  SIGNAL row : INTEGER;
+  SIGNAL n_blank : STD_LOGIC;
+  SIGNAL n_sync : STD_LOGIC; 
 begin
 
 	 ufredivider:
@@ -130,29 +121,26 @@ begin
 		reset_n=>rst, 
       h_sync=>h_sync, 
       v_sync=>v_sync, 
-      disp_ena=>dis_ena, 
+      disp_ena=>display_enable, 
       column=>column, 
       row=>row, 
       n_blank=>n_blank, 
       n_sync=>n_sync
 	 );
 	
-	column_minus <= column - 1;
-	
 	uTextGen: text_generator
 	port map (
-		clkr=>pix_clk,
-		clkw=>clk_sys, 
-		-- -Here Pay Attention !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		rst=>rst, 
-		disp_ena=>dis_ena, 
-		row=>row, 
-		column=>column_minus, 
-		write_ena=>write_ena,
-		write_char=>write_char, 
-		red=>r, 
-		green=>g, 
-		blue=>b
+		clk_write      => clk_write,    
+		rst            => rst,           
+		display_enable => display_enable,   
+		row            => row,         
+		column         => column,     
+		write_enable   => write_enable,	   
+		write_char     => write_char,    
+		red            => red,       
+		green          => green,        
+		blue           => blue
+  
 	);
 
 end behave;
