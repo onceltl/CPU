@@ -4,7 +4,7 @@
 -- 
 -- Create Date:    11:18:50 11/22/2017 
 -- Design Name: 
--- Module Name:    commond_rom - Behavioral 
+-- Module Name:    command_rom - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -22,19 +22,18 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.all;
 --addr 32&128
 
-entity commond_rom is
+entity command_rom is
 	  port(
       clk_write         : in std_logic;
       com_write_addr    : in std_logic_vector(11 downto 0);
       com_write_nable   : in std_logic;
       char_write_value  : in std_logic_vector(7 downto 0);
-		
 		com_read_addr     : in std_logic_vector(11 downto 0);
       char_read_value   : out std_logic_vector(7 downto 0)
 	);
-end commond_rom;
+end command_rom;
 
-architecture arch of commond_rom is
+architecture arch of command_rom is
 
    constant COM_RAM_ADDR_WIDTH: integer := 12; --12=5+7; 2^5 rows ; 2^7 column
    constant CHAR_RAM_WIDTH: integer := 8;  -- 8 bits per character; 2-bit-hex

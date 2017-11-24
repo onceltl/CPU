@@ -110,7 +110,7 @@ BEGIN
 	  com_write_addr <=nowR & nowC;
 	  -- from rom and video_ram to get font bit for multiplexing 
 	  
-	  process(row, column)
+	  process(row,column,offset,pixel_x,pixel_y,readC,readR)
 	  begin
 	    pixel_x(8 downto 0) <= conv_std_logic_vector(row, 9);
 	    pixel_y(9 downto 0) <= conv_std_logic_vector(column, 10);
@@ -161,7 +161,7 @@ BEGIN
 		end if;
 	 end process;
 	  
-	process(write_enable,count_Cursor) 
+	process(write_enable,count_Cursor,nowR,nowC,offset,offset_enable,display_Cursor,write_char) 
 	begin 
 		nxtR <= nowR ;
 		nxtC <= nowC ;
