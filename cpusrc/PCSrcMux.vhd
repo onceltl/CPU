@@ -15,9 +15,15 @@ entity PCSrcMux is
 end PCSrcMux;
 
 architecture Behavioral of PCSrcMux is
-
 begin
 
+	process(jump, pc_in, pc_out)
+		if(jump = '1')then
+			pc_out <= jump_dest;
+		else
+			pc_out <= pc_in;
+		end if;
+	end process;
 
 end Behavioral;
 

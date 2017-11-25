@@ -16,9 +16,15 @@ entity PC is
 end PC;
 
 architecture Behavioral of PC is
-
 begin
-
+	
+	process(rst, clk)
+		if(rst = '0')then
+			pc_out <= ZERO16;
+		elsif((wr = '1') and rising_edge(clk))then
+			pc_out <= pc_in;
+		end if;
+	end process;
 
 end Behavioral;
 
