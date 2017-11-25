@@ -15,9 +15,15 @@ entity DataToWrMux is
 end DataToWrMux;
 
 architecture Behavioral of DataToWrMux is
-
 begin
 
+	process(data_src, src_a, src_b)
+		if(data_src = DSRC_SRCA)then
+			data_out <= src_a;
+		else	-- DSRC_SRCB
+			data_out <= src_b;
+		end if;
+	end process;
 
 end Behavioral;
 
