@@ -7,14 +7,14 @@ package constantsIF is
 	--MainController Signal:
 	
 	--branch op
-	constant BRANCH_NONE : std_logic_vector(1 downto 0) := "00"
-	constant BRANCH_RXEQZ : std_logic_vector(1 downto 0) := "01"
-	constant BRANCH_RXNEZ : std_logic_vector(1 downto 0) := "10"
-	constant BRANCH_TEQZ : std_logic_vector(1 downto 0) := "11"	
+	constant BRANCH_NONE : std_logic_vector(1 downto 0) := "00";
+	constant BRANCH_RXEQZ : std_logic_vector(1 downto 0) := "01";
+	constant BRANCH_RXNEZ : std_logic_vector(1 downto 0) := "10";
+	constant BRANCH_TEQZ : std_logic_vector(1 downto 0) := "11";
 	-- jump dest
-	constant JUMP_BDEST : std_logic_vector(1 downto 0) := "01"
-	constant JUMP_RA : std_logic_vector(1 downto 0) := "10"
-	constant JUMP_REGX : std_logic_vector(1 downto 0) := "11"	
+	constant JUMP_BDEST : std_logic_vector(1 downto 0) := "01";
+	constant JUMP_RA : std_logic_vector(1 downto 0) := "10";
+	constant JUMP_REGX : std_logic_vector(1 downto 0) := "11";
 	-- re sp or ih
 	constant RE_SP: std_logic := '1';
 	constant RE_IH: std_logic := '0';
@@ -27,7 +27,7 @@ package constantsIF is
 	constant ALUOP_SRA: std_logic_vector(2 downto 0) := "101";
 	--alu src a
 	constant ALUSRCA_ZERO: std_logic_vector(1 downto 0) := "00";
-	constant ALUSRCA_REGA: std_logic_vector(1 downto 0) := "01":
+	constant ALUSRCA_REGA: std_logic_vector(1 downto 0) := "01";
 	constant ALUSRCA_SPREG: std_logic_vector(1 downto 0) := "10";
 	constant ALUSRCA_SHIFT: std_logic_vector(1 downto 0) := "11";
 	--alu src b
@@ -57,8 +57,8 @@ package constantsIF is
 	--others
 	constant NOP_INSTURCT: std_logic_vector(15 downto 0) := "0000100000000000";
 	constant ZERO16: std_logic_vector(15 downto 0) := "0000000000000000";
-	constant ZERO3: std_logic_vector(2 downto 0) := "000"
-
+	constant ZERO3: std_logic_vector(2 downto 0) := "000";
+	
 	-- for side road
 	constant FORWARD_OLD: std_logic_vector(1 downto 0) := "00";
 	constant FORWARD_ALU_EX: std_logic_vector(1 downto 0) := "01";
@@ -85,6 +85,37 @@ package constantsIF is
 	constant OP_SLTUI: std_logic_vector(4 downto 0) := "01011";
 	constant OP_MOVE: std_logic_vector(4 downto 0) := "01111";
 	
+	-- 11110 OP_IH inst(7 downto 0)
+	constant IH_MFIH: std_logic_vector(7 downto 0) := "00000000";
+	constant IH_MTIH: std_logic_vector(7 downto 0) := "00000001";
+	
+	-- 00110 OP_SHIFT inst(1 downto 0)
+	constant SHIFT_SLL: std_logic_vector(1 downto 0) := "00";
+	constant SHIFT_SRA: std_logic_vector(1 downto 0) := "11";
+	
+	-- 01100 OP_SPECIAL inst(10 downto 8)
+	constant SPECIAL_ADDSP: std_logic_vector(2 downto 0) := "011";
+	constant SPECIAL_BTEQZ: std_logic_vector(2 downto 0) := "000";
+	constant SPECIAL_MTSP: std_logic_vector(2 downto 0) := "100";
+	
+	-- 11100 OP_ADD_SUB_U inst(1 downto 0)
+	constant ADD_SUB_U_ADDU: std_logic_vector(1 downto 0) := "01";
+	constant ADD_SUB_U_SUBU: std_logic_vector(1 downto 0) := "11";
+
+	-- 11101 OP_LOGIC inst(4 downto 0) 
+	constant LOGIC_AND: std_logic_vector(4 downto 0) := "01100";
+	constant LOGIC_CMP: std_logic_vector(4 downto 0) := "01010";
+	constant LOGIC_PC: std_logic_vector(4 downto 0) := "00000";
+		--sub function code for pc inst(7 downto 5)
+		constant PC_JR: std_logic_vector(2 downto 0) := "000"; 
+		constant PC_MFPC: std_logic_vector(2 downto 0) := "010"; 
+		constant PC_JRRA: std_logic_vector(2 downto 0) := "001";
+		constant PC_JALR: std_logic_vector(2 downto 0) := "110";
+		-- end sub --
+	constant LOGIC_OR: std_logic_vector(4 downto 0) := "01101";
+	constant LOGIC_NEG: std_logic_vector(4 downto 0) := "01011";
+
+
 	
 
 end package ; -- constantsIF 
