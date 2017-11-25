@@ -25,14 +25,16 @@ package constantsIF is
 	constant ALUOP_OR: std_logic_vector(2 downto 0) := "011";
 	constant ALUOP_SLL: std_logic_vector(2 downto 0) := "100";
 	constant ALUOP_SRA: std_logic_vector(2 downto 0) := "101";
-	--alu src a & b
-	constant ALUSRC_REGA: std_logic_vector(2 downto 0) := "000":
-	constant ALUSRC_SPREG: std_logic_vector(2 downto 0) := "001";
-	constant ALUSRC_ZERO: std_logic_vector(2 downto 0) := "010";
-	constant ALUSRC_SHIFT: std_logic_vector(2 downto 0) := "011";
-	constant ALUSRC_IMM: std_logic_vector(2 downto 0) := "100";
-	constant ALUSRC_REGB: std_logic_vector(2 downto 0) := "101";
-	constant ALUSRC_PC: std_logic_vector(2 downto 0) := "110";
+	--alu src a
+	constant ALUSRCA_ZERO: std_logic_vector(1 downto 0) := "00";
+	constant ALUSRCA_REGA: std_logic_vector(1 downto 0) := "01":
+	constant ALUSRCA_SPREG: std_logic_vector(1 downto 0) := "10";
+	constant ALUSRCA_SHIFT: std_logic_vector(1 downto 0) := "11";
+	--alu src b
+	constant ALUSRCB_ZERO: std_logic_vector(1 downto 0) := "00";
+	constant ALUSRCB_REGB: std_logic_vector(1 downto 0) := "01";
+	constant ALUSRCB_IMM: std_logic_vector(1 downto 0) := "10";
+	constant ALUSRCB_PC: std_logic_vector(1 downto 0) := "11";
 	--t op
 	constant TOP_NEQ: std_logic := '0';
 	constant TOP_NEG: std_logic := '1';
