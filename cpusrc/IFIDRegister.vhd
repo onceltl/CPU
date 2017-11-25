@@ -18,9 +18,17 @@ entity IFIDRegister is
 end IFIDRegister;
 
 architecture Behavioral of IFIDRegister is
-
 begin
-
+	
+	process(rst, clk)
+		if(rst = '0')then
+			pc_out <= ZERO16;
+			inst_out <= ZERO16;
+		elsif((wr = '1') and rising_edge(clk))then
+			pc_out <= pc_in;
+			inst_out <= inst_in;
+		end if;
+	end process;
 
 end Behavioral;
 

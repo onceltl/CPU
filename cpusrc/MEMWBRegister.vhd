@@ -30,9 +30,29 @@ entity MEMWBRegister is
 end MEMWBRegister;
 
 architecture Behavioral of MEMWBRegister is
-
 begin
 
+	process(rst, clk)
+		if(rst = '0')then
+			wr_reg_out <= '0';
+			wr_sp_out <= '0';
+			wr_ih_out <= '0';
+			mem_to_reg_out <= '0';
+			
+			alu_result_out <= ZERO16;
+			data_out <= ZERO16;
+			rd_out <= "000";
+		elsif((wr = '1') and rising_edge(clk))then
+			wr_reg_out <= wr_reg_in;
+			wr_sp_out <= wr_sp_in;
+			wr_ih_out <= wr_ih_in;
+			mem_to_reg_out <= mem_to_reg_in;
+			
+			alu_result_out <= alu_result_in;
+			data_out <= data_in;
+			rd_out <= rd_in;
+		end if;
+	end process;
 
 end Behavioral;
 

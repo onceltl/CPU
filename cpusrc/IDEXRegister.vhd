@@ -53,9 +53,56 @@ entity IDEXRegister is
 end IDEXRegister;
 
 architecture Behavioral of IDEXRegister is
-
 begin
 
+	process(rst, clk)
+		if(rst = '0')then
+			alu_op_out <= "000";
+			alu_src_a_out <= "00";
+			alu_src_b_out <= "00";
+			t_op_out <= '0';
+			data_src_out <= '0';
+			wr_reg_out <= '0';
+			wr_mem_out <= '0';
+			mem_to_reg_out <= '0';
+			wr_sp_out <= '0';
+			wr_ih_out <= '0';
+			wr_t_out <= '0';
+			
+			pc_out <= ZERO16;
+			reg_a_out <= ZERO16;
+			reg_b_out <= ZERO16;
+			sp_reg_out <= ZERO16;
+			shift_out <= ZERO16;
+			imm_out <= ZERO16;
+			rd_out <= "000";
+		elsif(rising_edge(clk))then
+			if(wr = '1')then
+				alu_op_out <= alu_op_in;
+				alu_src_a_out <= alu_src_a_in;
+				alu_src_b_out <= alu_src_b_in;
+				t_op_out <= t_op_in;
+				data_src_out <= data_src_in;
+				wr_reg_out <= wr_reg_in;
+				wr_mem_out <= wr_mem_in;
+				mem_to_reg_out <= mem_to_reg_in;
+				wr_sp_out <= wr_sp_in;
+				wr_ih_out <= wr_ih_in;
+				wr_t_out <= wr_t_in;
+				
+				pc_out <= pc_in;
+				reg_a_out <= reg_a_in;
+				reg_b_out <= reg_b_in;
+				sp_reg_out <= sp_reg_in;
+				shift_out <= shift_in;
+				imm_out <= imm_in;
+				rd_out <= rd_in;
+			end if;
+			if(flush = '1')then
+				
+			end if;
+		end if;
+	end process;
 
 end Behavioral;
 
