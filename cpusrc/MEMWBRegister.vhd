@@ -41,7 +41,7 @@ begin
 			
 			alu_result_out <= ZERO16;
 			data_out <= ZERO16;
-			rd_out <= "000";
+			rd_out <= ZERO3;
 		elsif((wr = '1') and rising_edge(clk))then
 			wr_reg_out <= wr_reg_in;
 			wr_sp_out <= wr_sp_in;

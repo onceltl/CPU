@@ -7,6 +7,7 @@ use work.constantsIF.all;
 entity HazardDetectiveUnit is
     port ( en : in std_logic;
            wr_reg : in std_logic;
+		   mem_to_reg_mem : in std_logic;
            mem_signal_ex : in std_logic_vector(3 downto 0);
            mem_signal_mem : in std_logic_vector(3 downto 0);
 
@@ -41,11 +42,11 @@ begin
 			wr_idex <= '0';
 			wr_exmem <= '0';
 			wr_memwb <= '0';
-		elsif((mem_signal_mem = RE_IM) or (mem_signal_mem = WR_IM))then	-- struct conflict
+		elsif((mem_signal_mem = IM_READ) or (mem_signal_mem = IM_WRITE))then	-- struct conflict
 			wr_pc <= '0';
 			wr_ifid <= '0';
 			flush_idex <= '1';
-		elsif((mem_signal_ex = RE_DM) and (wr_reg = '1'))then			-- memdata conflict
+		elsif((mem_to_reg_mem = '1') and (wr_reg = '1'))then					-- memdata conflict
 			if((rd = re_idx_a) or (rd = re_idx_b))then
 				wr_pc <= '0';
 				wr_ifid <= '0';

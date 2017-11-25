@@ -53,9 +53,9 @@ begin
 	end process;
 	
 	process(wr_ih_ex, wr_ih_mem, wr_sp_ex, wr_sp_mem, re_sp_or_ih)
-		if( ((wr_ih_ex = '1') and (re_sp_or_ih = IH)) or ((wr_sp_ex = '1') and (re_sp_or_ih = SP)) )then
+		if( ((wr_ih_ex = '1') and (re_sp_or_ih = RE_IH)) or ((wr_sp_ex = '1') and (re_sp_or_ih = RE_SP)) )then
 			sp_reg_src <= FORWARD_ALU_EX;
-		elsif( ((wr_ih_mem = '1') and (re_sp_or_ih = IH)) or ((wr_sp_mem = '1') and (re_sp_or_ih = SP)) )then
+		elsif( ((wr_ih_mem = '1') and (re_sp_or_ih = RE_IH)) or ((wr_sp_mem = '1') and (re_sp_or_ih = RE_SP)) )then
 			sp_reg_src <= FORWARD_ALU_MEM;
 		else
 			sp_reg_src <= FORWARD_OLD;

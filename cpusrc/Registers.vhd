@@ -70,16 +70,16 @@ begin
 	-- write register
 	process(clk)
 		if(falling_edge(clk))then
-			if(wr_reg)then
+			if(wr_reg = '1')then
 				reg_norm(conv_integer(wr_idx)) <= wr_data;
 			end if;
-			if(wr_ra)then
+			if(wr_ra = '1')then
 				ra_reg <= pc + '1';
 			end if;
-			if(wr_sp)then
+			if(wr_sp = '1')then
 				sp_reg <= wr_data;
 			end if;
-			if(wr_ih)then
+			if(wr_ih = '1')then
 				ih_reg <= wr_data;
 			end if;
 		end if;
@@ -126,7 +126,7 @@ begin
 		end case;
 	end process;
 	process(wr_t, t_reg, t_result)
-		if(wr_t)then
+		if(wr_t = '1')then
 			t_out <= t_result;
 		else
 			t_out <= t_reg;

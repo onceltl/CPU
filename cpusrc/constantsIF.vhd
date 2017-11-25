@@ -57,6 +57,7 @@ package constantsIF is
 	--others
 	constant NOP_INSTURCT: std_logic_vector(15 downto 0) := "0000100000000000";
 	constant ZERO16: std_logic_vector(15 downto 0) := "0000000000000000";
+	constant ZERO3: std_logic_vector(2 downto 0) := "000";
 
 	-- for side road
 	constant FORWARD_OLD: std_logic_vector(1 downto 0) := "00";
