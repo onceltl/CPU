@@ -10,7 +10,7 @@ entity MemSignalController is
 
            alu_result : in std_logic_vector (15 downto 0);
 
-           alu_result_out : out std_logic_vector (15 downto 0);
+           result_out : out std_logic_vector (15 downto 0);
            mem_signal : out std_logic_vector (3 downto 0));
 
 end MemSignalController;
@@ -32,6 +32,10 @@ begin
 			elsif(res = x"BF00")then
 				mem_signal <= SERIAL_DATA_WRITE;
 			end if;
+			
+			if res >= x"8000" then
+				res := res - x"8000";
+			end if;
 		end if;
 		
 		if(mem_to_reg = '1')then
@@ -44,12 +48,13 @@ begin
 			elsif(res = x"BF01")then
 				mem_signal <= SERIAL_STATE_READ;
 			end if;
+			
+			if res >= x"8000" then
+				res := res - x"8000";
+			end if;
 		end if;
 		
-		if res >= x"8000" then
-			res := res - x"8000";
-		end if;
-		alu_result_out <= res;
+		result_out <= res;
 		
 	end process;
 
