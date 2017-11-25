@@ -60,9 +60,9 @@ begin
 		reg_b_data <= reg_norm(conv_integer(re_idx_b));
 	--end process;
 	process(re_sp_or_ih, sp_reg, ih_reg)
-		if(re_sp_or_ih = '1')then
+		if(re_sp_or_ih = RE_SP)then
 			sp_reg_data <= sp_reg;
-		else
+		else	-- RE_IH
 			sp_reg_data <= ih_reg;
 		end if;
 	end process;
