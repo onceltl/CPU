@@ -15,9 +15,15 @@ entity MemToRegMux is
 end MemToRegMux;
 
 architecture Behavioral of MemToRegMux is
-
 begin
 
+	process(mem_to_reg, data, alu_result)
+		if(mem_to_reg = '1')then
+			data_wr <= data;
+		else
+			data_wr <= alu_result;
+		end if;
+	end process;
 
 end Behavioral;
 

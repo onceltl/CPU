@@ -15,9 +15,16 @@ entity RAMSrcMux is
 end RAMSrcMux;
 
 architecture Behavioral of RAMSrcMux is
-
 begin
-
+	
+	process(mem_signal_in, dm_data_in, im_data_in)
+		case(mem_signal_in)is
+			when IM_READ =>
+				data_out <= im_data_in;
+			when others =>
+				data_out <= dm_data_in;
+		end case;
+	end process;
 
 end Behavioral;
 
