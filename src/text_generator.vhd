@@ -191,7 +191,7 @@ BEGIN
 				if (offset_enable = '1') then
 					nxtoffset <= offset+"00001";				
 				end if;
-				if (nowR = "11111") and (offset_enable = '0') then  -- at 31 queue tail.
+				if (nowR = "11101") and (offset_enable = '0') then  -- at 31 queue tail.
 					nxtoffset <= offset+"00001";
 					nxtoffset_enable <= '1';
 				end if;
@@ -203,7 +203,7 @@ BEGIN
 				nxtC <= nowC + "0000001";
 				com_write_char <= write_char;
 			end if;
-		elsif (count_Cursor= 10) then 
+		elsif (count_Cursor= 2) then 
 			nxtcount_Cursor <= 0;
 			nxtdisplay_Cursor <= not display_Cursor;
 			Cursor_write_enable <= '1';

@@ -38,8 +38,7 @@ entity vga_test is
 	 write_char   :  IN STD_LOGIC_VECTOR(7 downto 0);
 	 h_sync       :  OUT  STD_LOGIC;  --horiztonal sync pulse
     v_sync       :  OUT  STD_LOGIC;  --vertical sync pulse
-    
-	 red, green, blue : out STD_LOGIC_VECTOR(2 downto 0)
+    red, green, blue : out STD_LOGIC_VECTOR(2 downto 0)
 	); 
 end vga_test;
 
