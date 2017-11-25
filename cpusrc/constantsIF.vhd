@@ -53,6 +53,7 @@ package constantsIF is
 	constant SERIAL_DATA_WRITE: std_logic_vector(3 downto 0) := "0111";
 	constant VGA_WRITE: std_logic_vector(3 downto 0) := "1000";
 	constant PS2_READ: std_logic_vector(3 downto 0) := "1001";
+	constant VGA_PS2_STATE_READ: std_logic_vector(3 downto 0) := "1010";
 	
 	--read write enable signal
 	constant READ_ENABLE: std_logic := '1';

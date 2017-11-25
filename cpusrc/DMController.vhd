@@ -29,6 +29,7 @@ port (
 	ram1_data: inout std_logic_vector(15 downto 0);
 	vga_write_enable: out std_logic;
 	vga_write_data: out std_logic_vector(7 downto 0); --connect to vga's write_char signal
+	vga_tbre, vga_tsre: in std_logic;
 	--not ensured signals until ltl finish ps2 module
 	ps2_read_enable: out std_logic;
 	ps2_read_data: in std_logic_vector(7 downto 0);
@@ -96,8 +97,8 @@ begin
 			read_result <= ram1_data;
 		elsif mem_signal = SERIAL_STATE_READ then
 			read_result <= ZERO14 & serial_data_ready & (serial_tbre AND serial_tsre);
-		else
-			read_result <= ZERO16;
+		elsif mem_signal = VGA_PS2_STATE_READ then
+			read_result <= ZERO14 & ps2_data_ready & (vga_tbre AND vga_tsre);
 		end if;
 	end process; -- getResult
 
