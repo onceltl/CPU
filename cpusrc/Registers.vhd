@@ -93,36 +93,36 @@ begin
 	--choose register out src
 	process(reg_a_src, reg_a_data, alu_result_ex, alu_result_mem, mem_result)
 		case(reg_a_src)is
-			when FORWARD_OLD =>
-				reg_a_out <= reg_a_data;
 			when FORWARD_ALU_EX =>
 				reg_a_out <= alu_result_ex;
 			when FORWARD_ALU_MEM =>
 				reg_a_out <= alu_result_mem;
 			when FORWARD_MEM =>
 				reg_a_out <= mem_result;
+			when others =>	-- FORWARD_OLD
+				reg_a_out <= reg_a_data;
 		end case;
 	end process;
 	process(reg_b_src, reg_b_data, alu_result_ex, alu_result_mem, mem_result)
 		case(reg_b_src)is
-			when FORWARD_OLD =>
-				reg_b_out <= reg_b_data;
 			when FORWARD_ALU_EX =>
 				reg_b_out <= alu_result_ex;
 			when FORWARD_ALU_MEM =>
 				reg_b_out <= alu_result_mem;
 			when FORWARD_MEM =>
 				reg_b_out <= mem_result;
+			when others =>	-- FORWARD_OLD
+				reg_b_out <= reg_b_data;
 		end case;
 	end process;
 	process(sp_reg_src, sp_reg_data, alu_result_ex, alu_result_mem)
 		case(sp_reg_src)is
-			when FORWARD_OLD =>
-				sp_reg_out <= sp_reg_data;
 			when FORWARD_ALU_EX =>
 				sp_reg_out <= alu_result_ex;
 			when FORWARD_ALU_MEM =>
 				sp_reg_out <= alu_result_mem;
+			when others =>	-- FORWARD_OLD
+				sp_reg_out <= sp_reg_data;
 		end case;
 	end process;
 	process(wr_t, t_reg, t_result)

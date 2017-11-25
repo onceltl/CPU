@@ -10,6 +10,17 @@ package constantsIF is
 	constant NOPInstruct: std_logic_vector(15 downto 0) := "0000100000000000";
 	
 	
+	--for branch
+	constant BRANCH_NONE : std_logic_vector(1 downto 0) := "00"
+	constant BRANCH_RXEQZ : std_logic_vector(1 downto 0) := "01"
+	constant BRANCH_RXNEZ : std_logic_vector(1 downto 0) := "10"
+	constant BRANCH_TEQZ : std_logic_vector(1 downto 0) := "11"
+	
+	-- for jump
+	constant JUMP_BDEST : std_logic_vector(1 downto 0) := "01"
+	constant JUMP_RA : std_logic_vector(1 downto 0) := "10"
+	constant JUMP_REGX : std_logic_vector(1 downto 0) := "11"
+	
 	-- zero bits
 	constant ZERO16: std_logic_vector(15 downto 0) := "0000000000000000";
 
