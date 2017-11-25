@@ -19,6 +19,7 @@ architecture Behavioral of ALUSrcAMux is
 begin
 
 	process(alu_src_a, reg_a, sp_reg, shift)
+	begin
 		case(alu_src_a)is
 			when ALUSRCA_REGA =>
 				src_a <= reg_a;

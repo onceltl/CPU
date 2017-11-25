@@ -21,6 +21,7 @@ architecture Behavioral of IFIDRegister is
 begin
 	
 	process(rst, clk)
+	begin
 		if(rst = '0')then
 			pc_out <= ZERO16;
 			inst_out <= ZERO16;

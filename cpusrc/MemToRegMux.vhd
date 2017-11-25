@@ -18,6 +18,7 @@ architecture Behavioral of MemToRegMux is
 begin
 
 	process(mem_to_reg, data, alu_result)
+	begin
 		if(mem_to_reg = '1')then
 			data_wr <= data;
 		else

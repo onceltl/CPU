@@ -18,6 +18,7 @@ architecture Behavioral of PCSrcMux is
 begin
 
 	process(jump, pc_in, pc_out)
+	begin
 		if(jump = '1')then
 			pc_out <= jump_dest;
 		else

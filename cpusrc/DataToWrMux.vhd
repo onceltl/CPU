@@ -18,6 +18,7 @@ architecture Behavioral of DataToWrMux is
 begin
 
 	process(data_src, src_a, src_b)
+	begin
 		if(data_src = DSRC_SRCA)then
 			data_out <= src_a;
 		else	-- DSRC_SRCB

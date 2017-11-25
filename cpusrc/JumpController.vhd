@@ -24,6 +24,7 @@ begin
 
 	-- decide whether to jump
 	process(jmp, b_op)
+	begin
 		jump <= '0';
 		if(jmp = '1')then
 			jump <= '1'
@@ -49,6 +50,7 @@ begin
 
 	-- choose jump dest
 	process(j_dest, b_dest, reg_a, ra)
+	begin
 		case(j_dest)is
 			when JUMP_BDEST =>
 				j_dest_out <= b_dest;

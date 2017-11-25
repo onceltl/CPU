@@ -33,6 +33,7 @@ architecture Behavioral of MEMWBRegister is
 begin
 
 	process(rst, clk)
+	begin
 		if(rst = '0')then
 			wr_reg_out <= '0';
 			wr_sp_out <= '0';

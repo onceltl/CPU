@@ -56,6 +56,7 @@ architecture Behavioral of IDEXRegister is
 begin
 
 	process(rst, clk)
+	begin
 		if(rst = '0')then
 			alu_op_out <= ALUOP_PLUS;
 			alu_src_a_out <= ALUSRCA_ZERO;

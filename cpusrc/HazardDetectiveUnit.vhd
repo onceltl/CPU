@@ -29,6 +29,7 @@ begin
 	
 	process(en, wr_reg, mem_signal_ex, mem_signal_mem,
 			rd, re_idx_a, re_idx_b)
+	begin
 		wr_pc <= '1';
 		wr_ifid <= '1';
 		wr_idex <= '1';

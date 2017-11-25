@@ -29,6 +29,7 @@ begin
 	
 	process(wr_reg_ex, wr_reg_mem, mem_to_reg,
 			rd_ex, rd_mem, re_idx_a)
+	begin
 		if((wr_reg_ex = '1') and (rd_ex = re_idx_a))then		-- alu result to be used by next
 			reg_a_src <= FORWARD_ALU_EX;
 		elsif((wr_reg_mem = '1') and (mem_to_reg = '1') and (rd_mem = re_idx_a))then	-- memdata to be used by next next
@@ -41,6 +42,7 @@ begin
 	end process;
 	process(wr_reg_ex, wr_reg_mem, mem_to_reg,
 			rd_ex, rd_mem, re_idx_b)
+	begin
 		if((wr_reg_ex = '1') and (rd_ex = re_idx_b))then
 			reg_b_src <= FORWARD_ALU_EX;
 		elsif((wr_reg_mem = '1') and (mem_to_reg = '1') and (rd_mem = re_idx_b))then
@@ -53,6 +55,7 @@ begin
 	end process;
 	
 	process(wr_ih_ex, wr_ih_mem, wr_sp_ex, wr_sp_mem, re_sp_or_ih)
+	begin
 		if( ((wr_ih_ex = '1') and (re_sp_or_ih = RE_IH)) or ((wr_sp_ex = '1') and (re_sp_or_ih = RE_SP)) )then
 			sp_reg_src <= FORWARD_ALU_EX;
 		elsif( ((wr_ih_mem = '1') and (re_sp_or_ih = RE_IH)) or ((wr_sp_mem = '1') and (re_sp_or_ih = RE_SP)) )then

@@ -60,6 +60,7 @@ begin
 		reg_b_data <= reg_norm(conv_integer(re_idx_b));
 	--end process;
 	process(re_sp_or_ih, sp_reg, ih_reg)
+	begin
 		if(re_sp_or_ih = RE_SP)then
 			sp_reg_data <= sp_reg;
 		else	-- RE_IH
@@ -69,6 +70,7 @@ begin
 	
 	-- write register
 	process(clk)
+	begin
 		if(falling_edge(clk))then
 			if(wr_reg = '1')then
 				reg_norm(conv_integer(wr_idx)) <= wr_data;
@@ -85,6 +87,7 @@ begin
 		end if;
 	end process;	
 	process(clk)
+	begin
 		if(rising_edge(clk))then
 			t_reg <= t_result;
 		end if;
@@ -92,6 +95,7 @@ begin
 	
 	--choose register out src
 	process(reg_a_src, reg_a_data, alu_result_ex, alu_result_mem, mem_result)
+	begin
 		case(reg_a_src)is
 			when FORWARD_ALU_EX =>
 				reg_a_out <= alu_result_ex;
@@ -104,6 +108,7 @@ begin
 		end case;
 	end process;
 	process(reg_b_src, reg_b_data, alu_result_ex, alu_result_mem, mem_result)
+	begin
 		case(reg_b_src)is
 			when FORWARD_ALU_EX =>
 				reg_b_out <= alu_result_ex;
@@ -116,6 +121,7 @@ begin
 		end case;
 	end process;
 	process(sp_reg_src, sp_reg_data, alu_result_ex, alu_result_mem)
+	begin
 		case(sp_reg_src)is
 			when FORWARD_ALU_EX =>
 				sp_reg_out <= alu_result_ex;
@@ -126,6 +132,7 @@ begin
 		end case;
 	end process;
 	process(wr_t, t_reg, t_result)
+	begin
 		if(wr_t = '1')then
 			t_out <= t_result;
 		else
