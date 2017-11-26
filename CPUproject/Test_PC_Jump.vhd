@@ -76,7 +76,7 @@ begin
 		ra => ra,		jump => jump,	j_dest_out => jump_dest
 	);
 	u3: PCIncreasor port map(
-		pc_in => now_pc,	pc_out => pc_plusplus;
+		pc_in => now_pc,	pc_out => pc_plusplus
 	);
 	u4: PCSrcMux port map(
 		jump => jump,		pc_in => pc_plusplus,
