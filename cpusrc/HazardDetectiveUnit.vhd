@@ -27,7 +27,7 @@ end HazardDetectiveUnit;
 architecture Behavioral of HazardDetectiveUnit is
 begin
 	
-	process(en, wr_reg, mem_signal_ex, mem_signal_mem,
+	process(en, wr_reg, mem_signal_ex, mem_signal_mem, mem_to_reg_mem,
 			rd, re_idx_a, re_idx_b)
 	begin
 		wr_pc <= '1';

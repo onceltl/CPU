@@ -24,7 +24,7 @@ begin
 	begin
 		if(rst = '0')then
 			pc_out <= ZERO16;
-			inst_out <= ZERO16;
+			inst_out <= NOP_INSTURCT;
 		elsif((wr = '1') and rising_edge(clk))then
 			pc_out <= pc_in;
 			inst_out <= inst_in;
