@@ -31,17 +31,9 @@ begin
 			when ALUOP_OR =>
 				temp := src_a or src_b;
 			when ALUOP_SLL =>
-				if(src_a = ZERO16) then
-					temp := TO_STDLOGICVECTOR(TO_BITVECTOR(src_b) SLL 8); 
-				else
-					temp := TO_STDLOGICVECTOR(TO_BITVECTOR(src_b) SLL CONV_INTEGER(src_a)); 
-				end if;
+				temp := TO_STDLOGICVECTOR(TO_BITVECTOR(src_b) SLL CONV_INTEGER(src_a)); 
 			when ALUOP_SRA =>
-				if(src_a = ZERO16) then
-					temp := TO_STDLOGICVECTOR(TO_BITVECTOR(src_b) SRA 8); 
-				else
-					temp := TO_STDLOGICVECTOR(TO_BITVECTOR(src_b) SRA CONV_INTEGER(src_a)); 
-				end if;
+				temp := TO_STDLOGICVECTOR(TO_BITVECTOR(src_b) SRA CONV_INTEGER(src_a)); 
 			when others =>
 				temp := ZERO16;
 		end case;
