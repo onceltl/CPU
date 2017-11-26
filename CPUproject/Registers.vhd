@@ -40,7 +40,7 @@ entity Registers is
 end Registers;
 
 architecture Behavioral of Registers is
-type RegisterArray is array(7 downto 0) of std_logic_vector(7 downto 0);
+type RegisterArray is array(7 downto 0) of std_logic_vector(15 downto 0);
 
 signal reg_norm : RegisterArray := (others => ZERO16);
 signal sp_reg : std_logic_vector(15 downto 0) := ZERO16;
