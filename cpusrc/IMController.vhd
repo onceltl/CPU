@@ -46,7 +46,7 @@ begin
 
 	getResult : process(ram2_data)
 	begin
-		if mem_signal = IM_READ then
+		if mem_signal /= IM_WRITE then
 			read_result <= ram2_data;
 		else
 			read_result <= NOP_INSTURCT;
