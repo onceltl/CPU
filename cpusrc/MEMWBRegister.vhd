@@ -14,7 +14,7 @@ entity MEMWBRegister is
            wr_ih_in : in std_logic;
            mem_to_reg_in : in std_logic;
 
-           alu_result_in : in std_logic_vector (15 downto 0);
+           result_in : in std_logic_vector (15 downto 0);
            data_in : in std_logic_vector (15 downto 0);
            rd_in : in std_logic_vector (2 downto 0);
 
@@ -23,7 +23,7 @@ entity MEMWBRegister is
            wr_ih_out : out std_logic;
            mem_to_reg_out : out std_logic;
 
-           alu_result_out : out std_logic_vector (15 downto 0);
+           result_out : out std_logic_vector (15 downto 0);
            data_out : out std_logic_vector (15 downto 0);
            rd_out : out std_logic_vector (2 downto 0));
 
@@ -40,7 +40,7 @@ begin
 			wr_ih_out <= '0';
 			mem_to_reg_out <= '0';
 			
-			alu_result_out <= ZERO16;
+			result_out <= ZERO16;
 			data_out <= ZERO16;
 			rd_out <= ZERO3;
 		elsif((wr = '1') and rising_edge(clk))then
@@ -49,7 +49,7 @@ begin
 			wr_ih_out <= wr_ih_in;
 			mem_to_reg_out <= mem_to_reg_in;
 			
-			alu_result_out <= alu_result_in;
+			result_out <= result_in;
 			data_out <= data_in;
 			rd_out <= rd_in;
 		end if;

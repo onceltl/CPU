@@ -33,7 +33,7 @@ begin
 				mem_signal <= SERIAL_DATA_WRITE;
 			end if;
 			
-			if res >= x"8000" then
+			if(res >= x"8000")then
 				res := res - x"8000";
 			end if;
 		end if;

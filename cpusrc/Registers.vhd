@@ -8,7 +8,7 @@ use work.constantsIF.all;
 entity Registers is
     port ( clk : in std_logic;
            wr_reg : in std_logic;
-           wr_t : in std_logic;
+           wr_t : in std_logic;	-- from ID/EX Register
            wr_sp : in std_logic;
            wr_ih : in std_logic;
            wr_ra : in std_logic;
@@ -45,20 +45,16 @@ type RegisterArray is array(7 downto 0) of std_logic_vector(7 downto 0);
 signal reg_norm : RegisterArray := (others => ZERO16);
 signal sp_reg : std_logic_vector(15 downto 0) := ZERO16;
 signal ih_reg : std_logic_vector(15 downto 0) := ZERO16;
-signal ra_reg : std_logic_vector(15 downto 0) := ZERO16;
 signal t_reg : std_logic;
 
 signal reg_a_data : std_logic_vector(15 downto 0);
 signal reg_b_data : std_logic_vector(15 downto 0);
 signal sp_reg_data : std_logic_vector(15 downto 0);
 begin
-	-- choose register
-	--process(re_idx_a, reg_norm)
-		reg_a_data <= reg_norm(conv_integer(re_idx_a));
-	--end process;
-	--process(re_idx_b, reg_norm)
-		reg_b_data <= reg_norm(conv_integer(re_idx_b));
-	--end process;
+	-- choose register by idx
+	reg_a_data <= reg_norm(conv_integer(re_idx_a));
+	reg_b_data <= reg_norm(conv_integer(re_idx_b));
+	-- choose special register
 	process(re_sp_or_ih, sp_reg, ih_reg)
 	begin
 		if(re_sp_or_ih = RE_SP)then
@@ -68,7 +64,7 @@ begin
 		end if;
 	end process;
 	
-	-- write register
+	-- write registers
 	process(clk)
 	begin
 		if(falling_edge(clk))then
@@ -76,7 +72,7 @@ begin
 				reg_norm(conv_integer(wr_idx)) <= wr_data;
 			end if;
 			if(wr_ra = '1')then
-				ra_reg <= pc + '1';
+				ra_out <= pc + '1';
 			end if;
 			if(wr_sp = '1')then
 				sp_reg <= wr_data;
@@ -86,6 +82,7 @@ begin
 			end if;
 		end if;
 	end process;	
+	-- write t
 	process(clk)
 	begin
 		if(rising_edge(clk))then
