@@ -74,13 +74,13 @@ begin
 				ram1_en <= '1';
 				ram1_oe <= '1';
 				ram1_we <= '1';
-				ram1_data(15 downto 8) <= ZERO8;
+				--ram1_data(15 downto 8) <= ZERO8;
 				serial_rdn <= not clk;
 			when SERIAL_DATA_WRITE =>
 				ram1_en <= '1';
 				ram1_oe <= '1';
 				ram1_we <= '0';
-				ram1_data <= write_data(7 downto 0);
+				ram1_data(7 downto 0) <= write_data(7 downto 0);
 				serial_wrn <= clk;
 			when VGA_WRITE =>
 				--ram1_data <= write_data;
