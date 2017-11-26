@@ -30,6 +30,7 @@ port (
 	vga_write_enable: out std_logic;
 	vga_write_data: out std_logic_vector(7 downto 0); --connect to vga's write_char signal
 	vga_tbre, vga_tsre: in std_logic;
+	vga_rdn, vga_wrn: out std_logic;
 	--not ensured signals until ltl finish ps2 module
 	ps2_read_enable: out std_logic;
 	ps2_read_data: in std_logic_vector(7 downto 0);
@@ -49,6 +50,8 @@ begin
 		ram1_en <= '1';
 		serial_rdn <= '1';
 		serial_wrn <= '1';
+		vga_rdn <= '1';
+		vga_wrn <= '1';
 		vga_write_enable <= WRITE_DISABLE;--0
 		ps2_read_enable <= READ_DISABLE;--0
 		
@@ -81,7 +84,7 @@ begin
 				serial_wrn <= clk;
 			when VGA_WRITE =>
 				--ram1_data <= write_data;
-				--wrn <= clk; --?如何使用
+				--vga_wrn <= clk; --?如何使用
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;
 			when PS2_READ =>
