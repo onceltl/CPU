@@ -1,3 +1,2 @@
-CPUproject/_xmsgs/*
-CPUproject/*.prj
-CPUproject/*.gise
+CPUproject/*
+!CPUproject/*.vhd
