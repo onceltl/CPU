@@ -96,7 +96,7 @@ begin
 		end case;
 	end process;
 
-	process(ram1_data, mem_signal, serial_tbre, serial_tsre, serial_data_ready) --get result
+	process(clk, ram1_data, mem_signal, serial_tbre, serial_tsre, serial_data_ready) --get result
 	begin
 		if mem_signal = DM_READ or mem_signal = SERIAL_DATA_READ then
 			read_result <= ram1_data;
@@ -107,6 +107,9 @@ begin
 		else
 			read_result <= NOP_INSTRUCT;
 		end if;
+		
+		-- a fake ram
+		read_result <= read_write_addr;
 	end process; -- getResult
 
 end architecture; -- arch
