@@ -128,6 +128,8 @@ architecture Behavioral of TopLevel is
 			write_ih: out std_logic; --是否写ih
 			write_t: out std_logic; --是否写t寄存器
 			shift_imm: out std_logic_vector(15 downto 0) --移位立即数
+			reidx_a: out std_logic_vector(2 downto 0); --rx地址
+			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
 	end component;
 	signal wr_ra: std_logic;
@@ -151,7 +153,14 @@ architecture Behavioral of TopLevel is
 
 begin
 	u7: MainController port map(
-		inst => inst,	wr_ra => wr_ra,		
+		inst => inst,	wr_ra => wr_ra,		re_sp_ih => id_re_sp_ih,
+		immd => id_imm,	b_dest => b_dest,	jmp_dest => j_dest,
+		jmp => jmp,		b_op => b_op,		alu_op => id_alu_op,
+		alu_srca => id_alu_srca,			alu_srcb => id_alu_srcb,
+		t_op => id_t_op,		datasrc => id_data_src,	rd => id_rd,
+		write_reg => id_wr_reg,	write_mem => id_wr_mem, mem_to_reg => id_mem_to_reg,
+		write_sp => id_wr_sp,	write_ih => id_wr_ih,	write_t => id_wr_t,
+		shift_imm => id_shift,	reidx_a => re_idx_a,	reidx_b => re_idx_b
 	);
 	u1: PC port map(
 		clk => clk,		rst => rst,		wr => wr_pc,
