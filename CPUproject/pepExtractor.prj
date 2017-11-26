@@ -1,2 +1,2 @@
-work	"Registers.vhd"
+work	"MemSignalController.vhd"
 work	"constantsIF.vhd"

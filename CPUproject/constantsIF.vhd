@@ -62,7 +62,7 @@ package constantsIF is
 	constant WRITE_DISABLE: std_logic := '0';
 
 	--others
-	constant NOP_INSTURCT: std_logic_vector(15 downto 0) := "0000100000000000";
+	constant NOP_INSTRUCT: std_logic_vector(15 downto 0) := "0000100000000000";
 	constant ZERO16: std_logic_vector(15 downto 0) := 		"0000000000000000";
 	constant ZERO14: std_logic_vector(13 downto 0) := 		"00000000000000";
 	constant ZERO8: std_logic_vector(7 downto 0) := 		"00000000";
