@@ -17,7 +17,7 @@ end GetT;
 architecture Behavioral of GetT is
 begin
 	
-	process(op, alu_result, alu_zero)
+	process(op, alu_signed, alu_zero)
 	begin
 		if(op = TOP_NEQ)then
 			t <= not alu_zero;

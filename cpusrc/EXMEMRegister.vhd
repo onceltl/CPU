@@ -15,7 +15,7 @@ entity EXMEMRegister is
            mem_to_reg_in : in std_logic;
            mem_signal_in : in std_logic_vector (3 downto 0);
 
-           alu_result_in : in std_logic_vector (15 downto 0);
+           result_in : in std_logic_vector (15 downto 0);
            data_in : in std_logic_vector (15 downto 0);
            rd_in : in std_logic_vector (2 downto 0);
 
@@ -25,7 +25,7 @@ entity EXMEMRegister is
            mem_to_reg_out : out std_logic;
            mem_signal_out : out std_logic_vector (3 downto 0);
 
-           alu_result_out : out std_logic_vector (15 downto 0);
+           result_out : out std_logic_vector (15 downto 0);
            data_out : out std_logic_vector (15 downto 0);
            rd_out : out std_logic_vector (2 downto 0));
 
@@ -43,7 +43,7 @@ begin
 			mem_to_reg_out <= '0';
 			mem_signal_out <= NONE;
 			
-			alu_result_out <= ZERO16;
+			result_out <= ZERO16;
 			data_out <= ZERO16;
 			rd_out <= ZERO3;
 		elsif((wr = '1') and rising_edge(clk))then
@@ -53,7 +53,7 @@ begin
 			mem_to_reg_out <= mem_to_reg_in;
 			mem_signal_out <= mem_signal_in;
 			
-			alu_result_out <= alu_result_in;
+			result_out <= result_in;
 			data_out <= data_in;
 			rd_out <= rd_in;
 		end if;
