@@ -8,6 +8,7 @@ entity TopLevel is
     port (
 		clk_origin : in std_logic;
 		rst : in std_logic;
+		en : in std_logic;
 		
 		ram2_en, ram2_oe, ram2_we: out std_logic;
 		ram2_addr: out std_logic_vector(17 downto 0);
@@ -434,6 +435,47 @@ architecture Behavioral of TopLevel is
 		);
 	end component;
 	
+	component ForwardUnit
+		port(
+			wr_reg_ex : in std_logic;
+			wr_reg_mem : in std_logic;
+			wr_ih_ex : in std_logic;
+			wr_sp_ex : in std_logic;
+			wr_ih_mem : in std_logic;
+			wr_sp_mem : in std_logic;
+			re_sp_or_ih : in std_logic;
+			mem_to_reg : in std_logic;
+			rd_ex : in std_logic_vector (2 downto 0);
+			rd_mem : in std_logic_vector (2 downto 0);
+			re_idx_a : in std_logic_vector (2 downto 0);
+			re_idx_b : in std_logic_vector (2 downto 0);
+			reg_a_src : out std_logic_vector(1 downto 0);
+			reg_b_src : out std_logic_vector(1 downto 0);
+			sp_reg_src : out std_logic_vector(1 downto 0)
+		);
+	end component;
+	
+	component HazardDetectiveUnit
+		port(
+			en : in std_logic;
+			wr_reg : in std_logic;
+			mem_to_reg_mem : in std_logic;
+			mem_signal_ex : in std_logic_vector(3 downto 0);
+			mem_signal_mem : in std_logic_vector(3 downto 0);
+			rd : in std_logic_vector (2 downto 0);
+			re_idx_a : in std_logic_vector (2 downto 0);
+			re_idx_b : in std_logic_vector (2 downto 0);
+			wr_pc : out std_logic;
+			wr_ifid : out std_logic;
+			wr_idex : out std_logic;
+			wr_exmem : out std_logic;
+			wr_memwb : out std_logic;
+			flush_idex : out std_logic
+		);
+	end component;
+	
+-- begin here
+	
 begin
 	u1: PC port map(
 		clk => clk,		rst => rst,		wr => wr_pc,
@@ -560,6 +602,20 @@ begin
 	u20: MemToRegMux port map(
 		mem_to_reg => wb_mem_to_reg,	data => wb_data,
 		result => wb_result,			data_wr => wb_wr_data
+	);
+	u21: ForwardUnit port map(
+		wr_reg_ex => ex_wr_reg,	wr_reg_mem => mem_wr_reg,	wr_ih_ex => ex_wr_ih,
+		wr_sp_ex => ex_wr_sp,	wr_ih_mem => mem_wr_ih,		wr_sp_mem => mem_wr_sp,
+		re_sp_or_ih => id_re_sp_ih,	mem_to_reg => mem_mem_to_reg,	rd_ex => ex_rd,
+		rd_mem => mem_rd,	re_idx_a => re_idx_a,	re_idx_b => re_idx_b,
+		reg_a_src => reg_a_src,	reg_b_src => reg_b_src,	sp_reg_src => sp_reg_src
+	);
+	u22: HazardDetectiveUnit port map(
+		en => en,	wr_reg => ex_wr_reg,	mem_to_reg_mem => mem_mem_to_reg,
+		mem_signal_ex => ex_mem_signal,		mem_signal_mem => mem_mem_signal,
+		rd => ex_rd,	re_idx_a => re_idx_a,	re_idx_b => re_idx_b,
+		wr_pc => wr_pc,	wr_ifid => wr_ifid,	wr_idex => wr_idex,
+		wr_exmem => wr_exmem,	wr_memwb => wr_memwb,	flush_idex => flush_idex
 	);
 
 end Behavioral;
