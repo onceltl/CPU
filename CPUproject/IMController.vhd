@@ -44,7 +44,7 @@ begin
 		end case;
 	end process ;
 
-	getResult : process(ram2_data)
+	getResult : process(ram2_data, mem_signal)
 	begin
 		if mem_signal /= IM_WRITE then
 			read_result <= ram2_data;

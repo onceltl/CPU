@@ -58,6 +58,7 @@ begin
 		
 		ram1_data <= HIGHZ16;
 		ram1_addr <= "00" & read_write_addr;
+		vga_write_data <= HIGHZ8;
 		
 		case (mem_signal) is
 			when DM_READ =>
@@ -94,7 +95,7 @@ begin
 		end case;
 	end process;
 
-	process(clk, ram1_data, mem_signal, serial_tbre, serial_tsre, serial_data_ready) --get result
+	process(clk, ram1_data, mem_signal, serial_tbre, serial_tsre, serial_data_ready, read_write_addr) --get result
 	begin
 		if mem_signal = DM_READ or mem_signal = SERIAL_DATA_READ then
 			read_result <= ram1_data;

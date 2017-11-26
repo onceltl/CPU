@@ -66,7 +66,6 @@ architecture Behavioral of TopLevel is
 	signal t : std_logic;
 	signal id_pc: std_logic_vector(15 downto 0);
 	signal b_dest : std_logic_vector (15 downto 0);
-	signal reg_a : std_logic_vector (15 downto 0);
 	signal ra : std_logic_vector (15 downto 0);
 	
 	component PCIncreasor
@@ -97,9 +96,6 @@ architecture Behavioral of TopLevel is
 			ram2_data: inout std_logic_vector(15 downto 0)
 		);
 	end component;
-	signal ex_mem_result: std_logic_vector(15 downto 0);
-	signal mem_signal: std_logic_vector(3 downto 0);
-	signal ex_mem_data: std_logic_vector(15 downto 0);
 	signal im_data: std_logic_vector(15 downto 0);
 	
 	component IFIDRegister
@@ -123,22 +119,22 @@ architecture Behavioral of TopLevel is
 			re_sp_ih: out std_logic; --选sp还是ih
 			immd: out std_logic_vector(15 downto 0); --扩展后的立即数立即数
 			b_dest: out std_logic_vector(15 downto 0); --符号扩展后的分支地址
-			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
+			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
 			jmp: out std_logic; --跳转控制信号
 			b_op: out std_logic_vector(1 downto 0);   --branch控制指令
 			alu_op: out std_logic_vector(2 downto 0); --alu operator
 			alu_srca: out std_logic_vector(1 downto 0); --alu sourceA
 			alu_srcb: out std_logic_vector(1 downto 0); --alu sourceB
 			t_op: out std_logic; --t register operator (not equal or < 0)
-			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
+			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
 			rd: out std_logic_vector(2 downto 0); --目的寄存器地址
 			write_reg: out std_logic; --是否写寄存器
-			write_mem: out std_logic; --是否写内�
-			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
+			write_mem: out std_logic; --是否写内�
+			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
 			write_sp: out std_logic; --是否写sp
 			write_ih: out std_logic; --是否写ih
-			write_t: out std_logic; --是否写t寄存�
-			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
+			write_t: out std_logic; --是否写t寄存�
+			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
 			reidx_a: out std_logic_vector(2 downto 0); --rx地址
 			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
@@ -302,7 +298,6 @@ architecture Behavioral of TopLevel is
 			zero : out std_logic
 		);
 	end component;
-	signal alu_result: std_logic_vector(15 downto 0);
 	signal alu_zero: std_logic;
 	
 	component GetT
@@ -459,8 +454,7 @@ architecture Behavioral of TopLevel is
 		port(
 			en : in std_logic;
 			wr_reg : in std_logic;
-			mem_to_reg_mem : in std_logic;
-			mem_signal_ex : in std_logic_vector(3 downto 0);
+			mem_to_reg_ex : in std_logic;
 			mem_signal_mem : in std_logic_vector(3 downto 0);
 			rd : in std_logic_vector (2 downto 0);
 			re_idx_a : in std_logic_vector (2 downto 0);
@@ -477,6 +471,8 @@ architecture Behavioral of TopLevel is
 -- begin here
 	
 begin
+	clk <= clk_origin;
+	
 	u1: PC port map(
 		clk => clk,		rst => rst,		wr => wr_pc,
 		pc_in => next_pc,	pc_out => now_pc
@@ -484,7 +480,7 @@ begin
 	u2: JumpController port map(
 		jmp => jmp,		b_op => b_op,	j_dest => j_dest,
 		t => t,			pc_in => id_pc,
-		b_dest => b_dest,	reg_a => reg_a,
+		b_dest => b_dest,	reg_a => id_reg_a,
 		ra => ra,		jump => jump,	j_dest_out => jump_dest
 	);
 	u3: PCIncreasor port map(
@@ -495,8 +491,8 @@ begin
 		jump_dest => jump_dest,	pc_out => next_pc
 	);
 	u5: IMController port map(
-		input_pc => now_pc,	input_alu => ex_mem_result,	write_data => ex_mem_data,
-		mem_signal => mem_signal,	read_result => im_data,
+		input_pc => now_pc,	input_alu => alu_result_mem,	write_data => mem_wr_data,
+		mem_signal => mem_mem_signal,	read_result => im_data,
 		ram2_oe => ram2_oe,	ram2_we => ram2_we,	ram2_en => ram2_en,
 		ram2_addr => ram2_addr,	ram2_data => ram2_data
 	);
@@ -611,8 +607,8 @@ begin
 		reg_a_src => reg_a_src,	reg_b_src => reg_b_src,	sp_reg_src => sp_reg_src
 	);
 	u22: HazardDetectiveUnit port map(
-		en => en,	wr_reg => ex_wr_reg,	mem_to_reg_mem => mem_mem_to_reg,
-		mem_signal_ex => ex_mem_signal,		mem_signal_mem => mem_mem_signal,
+		en => en,	wr_reg => ex_wr_reg,
+		mem_to_reg_ex => ex_mem_to_reg,		mem_signal_mem => mem_mem_signal,
 		rd => ex_rd,	re_idx_a => re_idx_a,	re_idx_b => re_idx_b,
 		wr_pc => wr_pc,	wr_ifid => wr_ifid,	wr_idex => wr_idex,
 		wr_exmem => wr_exmem,	wr_memwb => wr_memwb,	flush_idex => flush_idex

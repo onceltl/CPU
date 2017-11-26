@@ -7,8 +7,7 @@ use work.constantsIF.all;
 entity HazardDetectiveUnit is
     port ( en : in std_logic;
            wr_reg : in std_logic;
-		   mem_to_reg_mem : in std_logic;
-           mem_signal_ex : in std_logic_vector(3 downto 0);
+		   mem_to_reg_ex : in std_logic;
            mem_signal_mem : in std_logic_vector(3 downto 0);
 
            rd : in std_logic_vector (2 downto 0);
@@ -27,7 +26,7 @@ end HazardDetectiveUnit;
 architecture Behavioral of HazardDetectiveUnit is
 begin
 	
-	process(en, wr_reg, mem_signal_ex, mem_signal_mem, mem_to_reg_mem,
+	process(en, wr_reg, mem_signal_mem, mem_to_reg_ex,
 			rd, re_idx_a, re_idx_b)
 	begin
 		wr_pc <= '1';
@@ -47,7 +46,7 @@ begin
 			wr_pc <= '0';
 			wr_ifid <= '0';
 			flush_idex <= '1';
-		elsif((mem_to_reg_mem = '1') and (wr_reg = '1'))then					-- memdata conflict
+		elsif((mem_to_reg_ex = '1') and (wr_reg = '1'))then					-- memdata conflict
 			if((rd = re_idx_a) or (rd = re_idx_b))then
 				wr_pc <= '0';
 				wr_ifid <= '0';
