@@ -17,7 +17,7 @@ entity Test_PC_Jump is
            ra : in  STD_LOGIC_VECTOR (15 downto 0);
            t : in  STD_LOGIC;
 
-           j_dest : out  STD_LOGIC_VECTOR (15 downto 0);
+           jump_dest_out : out  STD_LOGIC_VECTOR (15 downto 0);
            pc_out : out  STD_LOGIC_VECTOR (15 downto 0));
 end Test_PC_Jump;
 
@@ -76,14 +76,14 @@ begin
 		ra => ra,		jump => jump,	j_dest_out => jump_dest
 	);
 	u3: PCIncreasor port map(
-		pc_in => now_pc,	pc_out => pc_plusplus;
+		pc_in => now_pc,	pc_out => pc_plusplus
 	);
 	u4: PCSrcMux port map(
 		jump => jump,		pc_in => pc_plusplus,
 		jump_dest => jump_dest,	pc_out => next_pc
 	);
 	
-	j_dest <= jump_dest;
+	jump_dest_out <= jump_dest;
 	pc_out <= now_pc;
 
 end Behavioral;

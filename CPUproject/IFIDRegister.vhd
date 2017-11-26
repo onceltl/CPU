@@ -5,7 +5,8 @@ use ieee.std_logic_unsigned.all;
 use work.constantsIF.all;
 
 entity IFIDRegister is
-    port ( clk : in std_logic;
+    port (
+			clk : in std_logic;
            rst : in std_logic;
            wr : in std_logic;
 
