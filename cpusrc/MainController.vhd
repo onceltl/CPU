@@ -26,7 +26,8 @@ entity MainController is
 		mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结果
 		write_sp: out std_logic; --是否写sp
 		write_ih: out std_logic; --是否写ih
-		write_t: out std_logic --是否写t寄存器
+		write_t: out std_logic; --是否写t寄存器
+		shift_imm: out std_logic_vector(15 downto 0) --移位立即数
 	);
 end entity;
 
@@ -45,8 +46,8 @@ begin
 		--default value of output
 		wr_ra <= '0';
 		re_sp_ih <= '0';
-		immd <= "0000000000000000";
-		b_dest <= "0000000000000000"; 
+		immd <= ZERO16;
+		b_dest <= ZERO16; 
 		jmp_dest <= "00"; 
 		jmp <= '0'; 
 		b_op <= "00"; 
@@ -62,6 +63,7 @@ begin
 		write_sp <= '0'; 
 		write_ih <= '0'; 
 		write_t <= '0';
+		shift_imm <= ZERO16;
 		
 		case (inst_temp) is
 			when OP_ADDIU =>
@@ -254,7 +256,13 @@ begin
 						mem_to_reg <= '0';
 						write_sp <= '0';
 						write_ih <= '0';
-						write_t <= '0';	
+						write_t <= '0';
+						if(inst(4 downto 2) = "000") then
+							shift_imm <= "0000000000001000";
+						else
+							shift_imm(15 downto 3) <= "0000000000000";
+							shift_imm(2 downto 0) <= inst(4 downto 2);
+						end if;
  					when SHIFT_SRA =>
 		 				wr_ra <= '0';
 						jmp <= '0';
@@ -269,6 +277,12 @@ begin
 						write_sp <= '0';
 						write_ih <= '0';
 						write_t <= '0';	
+						if(inst(4 downto 2) = "000") then
+							shift_imm <= "0000000000001000";
+						else
+							shift_imm(15 downto 3) <= "0000000000000";
+							shift_imm(2 downto 0) <= inst(4 downto 2);
+						end if;
  					when others =>
  				
  				end case ; 	
