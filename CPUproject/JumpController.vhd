@@ -29,7 +29,7 @@ begin
 		jump <= '0';
 		
 		if(jmp = '1')then
-			jump <= '1'
+			jump <= '1';
 		else
 			case(b_op)is
 				when BRANCH_RXEQZ =>

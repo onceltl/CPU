@@ -48,7 +48,7 @@ entity IDEXRegister is
            sp_reg_out : out std_logic_vector (15 downto 0);
            imm_out : out std_logic_vector (15 downto 0);
            shift_out : out std_logic_vector (15 downto 0);
-           rd_out : out std_logic_vector (2 downto 0);
+           rd_out : out std_logic_vector (2 downto 0));
 
 end IDEXRegister;
 
