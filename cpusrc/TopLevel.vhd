@@ -137,9 +137,22 @@ architecture Behavioral of TopLevel is
 	signal id_alu_srca: std_logic_vector(1 downto 0);
 	signal id_alu_srcb: std_logic_vector(1 downto 0);
 	signal id_t_op: std_logic;	
-	signal id_data_src: std_logic;	
+	signal id_data_src: std_logic;
+	signal id_rd: std_logic_vector(2 downto 0);
+	signal id_wr_reg: std_logic;
+	signal id_wr_mem: std_logic;
+	signal id_mem_to_reg: std_logic;
+	signal id_wr_sp: std_logic;
+	signal id_wr_ih: std_logic;
+	signal id_wr_t: std_logic;
+	signal re_idx_a: std_logic_vector(2 downto 0);
+	signal re_idx_b: std_logic_vector(2 downto 0);
+	signal id_shift: std_logic_vector(15 downto 0);
 
 begin
+	u7: MainController port map(
+		inst => inst,	wr_ra => wr_ra,		
+	);
 	u1: PC port map(
 		clk => clk,		rst => rst,		wr => wr_pc,
 		pc_in => next_pc,	pc_out => now_pc

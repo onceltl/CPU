@@ -7,8 +7,8 @@ use work.constantsIF.all;
 entity RAMSrcMux is
     port ( mem_signal_in : in std_logic_vector (3 downto 0);
 
-           dm_data_in : in std_logic_vector (15 downto 0));
-           im_data_in : in std_logic_vector (15 downto 0));
+           dm_data_in : in std_logic_vector (15 downto 0);
+           im_data_in : in std_logic_vector (15 downto 0);
 
            data_out : out std_logic_vector (15 downto 0));
 

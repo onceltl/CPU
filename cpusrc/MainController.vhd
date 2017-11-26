@@ -27,7 +27,9 @@ entity MainController is
 		write_sp: out std_logic; --是否写sp
 		write_ih: out std_logic; --是否写ih
 		write_t: out std_logic; --是否写t寄存器
-		shift_imm: out std_logic_vector(15 downto 0) --移位立即数
+		shift_imm: out std_logic_vector(15 downto 0);--移位立即数
+		reidx_a: out std_logic_vector(2 downto 0); --rx地址
+		reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 	);
 end entity;
 
@@ -64,6 +66,8 @@ begin
 		write_ih <= '0'; 
 		write_t <= '0';
 		shift_imm <= ZERO16;
+		reidx_a <= inst(10 downto 8);
+		reidx_b <= inst(7 downto 5);
 		
 		case (inst_temp) is
 			when OP_ADDIU =>

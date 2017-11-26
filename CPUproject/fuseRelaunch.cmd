@@ -1,1 +1,0 @@
--intstyle "ise" -incremental -o "D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/MemSignalController_test_isim_beh.exe" -prj "D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/MemSignalController_test_beh.prj" "work.MemSignalController_test" 

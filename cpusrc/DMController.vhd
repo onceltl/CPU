@@ -27,6 +27,7 @@ port (
 	-- ram1 bus
 	ram1_addr: out std_logic_vector(17 downto 0);
 	ram1_data: inout std_logic_vector(15 downto 0);
+	
 	vga_write_enable: out std_logic;
 	vga_write_data: out std_logic_vector(7 downto 0); --connect to vga's write_char signal
 	vga_tbre, vga_tsre: in std_logic;
@@ -56,6 +57,7 @@ begin
 		ps2_read_enable <= READ_DISABLE;--0
 		
 		ram1_data <= HIGHZ16;
+		ram1_addr <= ZERO16;
 		
 		case (mem_signal) is
 			when DM_READ =>
@@ -100,8 +102,10 @@ begin
 			read_result <= ram1_data;
 		elsif mem_signal = SERIAL_STATE_READ then
 			read_result <= ZERO14 & serial_data_ready & (serial_tbre AND serial_tsre);
-		elsif mem_signal = VGA_PS2_STATE_READ then
-			read_result <= ZERO14 & ps2_data_ready & (vga_tbre AND vga_tsre);
+		--elsif mem_signal = VGA_PS2_STATE_READ then
+			--read_result <= ZERO14 & ps2_data_ready & (vga_tbre AND vga_tsre);
+		else
+			read_result <= NOP_INSTRUCT;
 		end if;
 	end process; -- getResult
 
