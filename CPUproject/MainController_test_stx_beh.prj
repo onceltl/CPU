@@ -1,0 +1,3 @@
+vhdl isim_temp "constantsIF.vhd"
+vhdl isim_temp "MainController.vhd"
+vhdl isim_temp "MainController_test.vhd"

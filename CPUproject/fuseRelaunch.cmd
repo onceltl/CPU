@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -o "D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/MainController_test_isim_beh.exe" -prj "D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/MainController_test_beh.prj" "work.MainController_test" 

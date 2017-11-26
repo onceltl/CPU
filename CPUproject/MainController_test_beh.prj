@@ -1,0 +1,3 @@
+vhdl work "constantsIF.vhd"
+vhdl work "MainController.vhd"
+vhdl work "MainController_test.vhd"
