@@ -1,1 +1,3 @@
-CPUproject/_xmsgs
+CPUproject/_xmsgs/*
+CPUproject/*.prj
+CPUproject/*.gise
