@@ -49,7 +49,7 @@ begin
 		if mem_signal /= IM_WRITE then
 			read_result <= ram2_data;
 		else
-			read_result <= NOP_INSTURCT;
+			read_result <= NOP_INSTRUCT;
 		end if;
 	end process ; 
 end architecture ; 

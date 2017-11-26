@@ -1,5 +1,9 @@
 ISim log file
+<<<<<<< HEAD
 Running: C:\Users\Shine\Desktop\Git\CPU\CPUproject\test_pc_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb C:/Users/Shine/Desktop/Git/CPU/CPUproject/test_pc_isim_beh.wdb 
+=======
+Running: D:\XilinxWorkspace\CPUThinPad\CPU\CPUproject\MemSignalController_test_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/MemSignalController_test_isim_beh.wdb 
+>>>>>>> 8b4c96d468bd1997efd490f2d86ed7bb33e83a72
 ISim P.20131013 (signature 0x7708f090)
 This is a Full version of ISim.
 Time resolution is 1 ps

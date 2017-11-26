@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+work	"MemSignalController.vhd"
+=======
+<<<<<<< HEAD
 work	"JumpController.vhd"
 work	"PC.vhd"
 work	"PCIncreasor.vhd"
@@ -7,4 +10,5 @@ work	"Test_PC_Jump.vhd"
 =======
 work	"Registers.vhd"
 >>>>>>> 0fc2a03ae550fda0c99881e22a6d419580d9a4b5
+>>>>>>> fe4a30b6068c97e84b65f014114dba321cb59edc
 work	"constantsIF.vhd"

@@ -22,6 +22,7 @@
   <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="CPUproject.xise"/>
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
+<<<<<<< HEAD
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
@@ -82,6 +83,18 @@
       <status xil_pn:value="ReadyToRun"/>
     </transform>
     <transform xil_pn:end_ts="1511683243" xil_pn:in_ck="4814631935308045719" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1511683243">
+=======
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="MainController_stx_beh.prj"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
+    <file xil_pn:fileType="FILE_INI" xil_pn:name="xilinxsim.ini"/>
+  </files>
+
+  <transforms xmlns="http://www.xilinx.com/XMLSchema">
+    <transform xil_pn:end_ts="1511686856" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1511686856">
+      <status xil_pn:value="SuccessfullyRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1511686856" xil_pn:in_ck="276695035253802191" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1511686856">
+>>>>>>> 8b4c96d468bd1997efd490f2d86ed7bb33e83a72
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="ALU.vhd"/>
@@ -101,17 +114,23 @@
       <outfile xil_pn:name="MainController.vhd"/>
       <outfile xil_pn:name="MainController_test.vhd"/>
       <outfile xil_pn:name="MemSignalController.vhd"/>
+      <outfile xil_pn:name="MemSignalController_test.vhd"/>
       <outfile xil_pn:name="MemToRegMux.vhd"/>
       <outfile xil_pn:name="PC.vhd"/>
       <outfile xil_pn:name="PCIncreasor.vhd"/>
       <outfile xil_pn:name="PCSrcMux.vhd"/>
       <outfile xil_pn:name="RAMSrcMux.vhd"/>
       <outfile xil_pn:name="Registers.vhd"/>
+<<<<<<< HEAD
       <outfile xil_pn:name="Test_PC_Jump.vhd"/>
+=======
+      <outfile xil_pn:name="Registers_test.vhd"/>
+>>>>>>> 8b4c96d468bd1997efd490f2d86ed7bb33e83a72
       <outfile xil_pn:name="TopLevel.vhd"/>
       <outfile xil_pn:name="constantsIF.vhd"/>
       <outfile xil_pn:name="test_pc.vhd"/>
     </transform>
+<<<<<<< HEAD
     <transform xil_pn:end_ts="1511683249" xil_pn:in_ck="4814631935308045719" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="4600379973278439154" xil_pn:start_ts="1511683243">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -129,6 +148,8 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="test_pc_isim_beh.wdb"/>
     </transform>
+=======
+>>>>>>> 8b4c96d468bd1997efd490f2d86ed7bb33e83a72
   </transforms>
 
 </generated_project>

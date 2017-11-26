@@ -1,12 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
+<<<<<<< HEAD
   <DateModified>2017-11-26T15:27:01</DateModified>
   <ModuleName>MainController_test</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
   <SavedFilePath>C:/Users/Shine/Desktop/Git/CPU/CPUproject/iseconfig/MainController_test.xreport</SavedFilePath>
   <ImplementationReportsDirectory>C:/Users/Shine/Desktop/Git/CPU/CPUproject</ImplementationReportsDirectory>
   <DateInitialized>2017-11-26T15:27:01</DateInitialized>
+=======
+  <DateModified>2017-11-26T16:58:07</DateModified>
+  <ModuleName>MainController_test</ModuleName>
+  <SummaryTimeStamp>Unknown</SummaryTimeStamp>
+  <SavedFilePath>D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/iseconfig/MainController_test.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject</ImplementationReportsDirectory>
+  <DateInitialized>2017-11-26T16:58:07</DateInitialized>
+>>>>>>> 8b4c96d468bd1997efd490f2d86ed7bb33e83a72
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
  <body>
