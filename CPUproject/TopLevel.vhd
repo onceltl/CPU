@@ -23,7 +23,7 @@ entity TopLevel is
 		vga_tbre, 		vga_tsre, 		ps2_data_ready: 	in std_logic;
 		ps2_read_data: 										in std_logic_vector(7 downto 0);
 		vga_write_data:										out std_logic_vector(7 downto 0);
-		vga_write_enable, 				ps2_read_enable: 	out std_logic;
+		vga_write_enable, 				ps2_read_enable: 	out std_logic
 		
 	);
 end TopLevel;
@@ -123,22 +123,22 @@ architecture Behavioral of TopLevel is
 			re_sp_ih: out std_logic; --选sp还是ih
 			immd: out std_logic_vector(15 downto 0); --扩展后的立即数立即数
 			b_dest: out std_logic_vector(15 downto 0); --符号扩展后的分支地址
-			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信号
+			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
 			jmp: out std_logic; --跳转控制信号
 			b_op: out std_logic_vector(1 downto 0);   --branch控制指令
 			alu_op: out std_logic_vector(2 downto 0); --alu operator
 			alu_srca: out std_logic_vector(1 downto 0); --alu sourceA
 			alu_srcb: out std_logic_vector(1 downto 0); --alu sourceB
 			t_op: out std_logic; --t register operator (not equal or < 0)
-			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b来
+			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
 			rd: out std_logic_vector(2 downto 0); --目的寄存器地址
 			write_reg: out std_logic; --是否写寄存器
-			write_mem: out std_logic; --是否写内存
-			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结果
+			write_mem: out std_logic; --是否写内�
+			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
 			write_sp: out std_logic; --是否写sp
 			write_ih: out std_logic; --是否写ih
-			write_t: out std_logic; --是否写t寄存器
-			shift_imm: out std_logic_vector(15 downto 0) --移位立即数
+			write_t: out std_logic; --是否写t寄存�
+			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
 			reidx_a: out std_logic_vector(2 downto 0); --rx地址
 			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
@@ -269,7 +269,7 @@ architecture Behavioral of TopLevel is
 	signal ex_sp_reg : std_logic_vector (15 downto 0);	--75
 	signal ex_imm : std_logic_vector (15 downto 0);		--76
 	signal ex_shift : std_logic_vector (15 downto 0);	--77
-	signal ex_rd : std_logic_vector (2 downto 0)		--78
+	signal ex_rd : std_logic_vector (2 downto 0);		--78
 	
 	component ALUSrcAMux
 		port(
@@ -364,9 +364,9 @@ architecture Behavioral of TopLevel is
 	signal mem_wr_sp: std_logic;
 	signal mem_wr_ih: std_logic;
 	signal mem_mem_to_reg: std_logic;
-	signal mem_mem_signal std_logic_vector(3 downto 0);
-	signal mem_wr_data std_logic_vector(15 downto 0);
-	signal mem_rd std_logic_vector(2 downto 0);
+	signal mem_mem_signal: std_logic_vector(3 downto 0);
+	signal mem_wr_data: std_logic_vector(15 downto 0);
+	signal mem_rd: std_logic_vector(2 downto 0);
 	
 	component DMController
 		port(
@@ -554,11 +554,11 @@ begin
 		op => ex_alu_op,	src_a => src_a,	src_b => src_b,
 		result => alu_result_ex,	zero => alu_zero
 	);
-	u13 GetT port map(
+	u13: GetT port map(
 		op => ex_t_op,	alu_signed => alu_result_ex(15),
 		alu_zero => alu_zero,	t => t_result
 	);
-	u14 MemSignalController port map(
+	u14: MemSignalController port map(
 		mem_wr => ex_wr_mem,	mem_to_reg => ex_mem_to_reg,	alu_result => alu_result_ex,
 		result_out => ex_result,	mem_signal => ex_mem_signal
 	);
@@ -575,16 +575,16 @@ begin
 		mem_to_reg_out => mem_mem_to_reg,	mem_signal_out => mem_mem_signal,
 		result_out => alu_result_mem,	data_out => mem_wr_data,	rd_out => mem_rd
 	);
-	u17 DMController port map(
+	u17: DMController port map(
 		clk => clk,		read_write_addr => alu_result_mem,	write_data => mem_wr_data,
 		mem_signal => mem_mem_signal,	read_result => dm_data,	serial_tbre => serial_tbre,
 		serial_tsre => serial_tsre,	serial_data_ready => serial_data_ready,
 		serial_rdn => serial_rdn,	serial_wrn => serial_wrn,
 		ram1_oe => ram1_oe,		ram1_we => ram1_we,		ram1_en => ram1_en,
 		ram1_addr => ram1_addr,		ram1_data => ram1_data,
-		vga_write_enable => vga_write_enable,	vga_write_data >= vga_write_data,
+		vga_write_enable => vga_write_enable,	vga_write_data => vga_write_data,
 		vga_tbre => vga_tbre,	vga_tsre => vga_tsre,
-		ps2_read_enable => ps2_read_enable,	ps2_read_data => ps2_read_data,	ps2_data_ready >= ps2_data_ready
+		ps2_read_enable => ps2_read_enable,	ps2_read_data => ps2_read_data,	ps2_data_ready => ps2_data_ready
 	);
 	u18: RAMSrcMux port map(
 		mem_signal_in => mem_mem_signal,	dm_data_in => dm_data,

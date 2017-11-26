@@ -51,13 +51,13 @@ begin
 		ram1_en <= '1';
 		serial_rdn <= '1';
 		serial_wrn <= '1';
-		vga_rdn <= '1';
-		vga_wrn <= '1';
+		--vga_rdn <= '1';
+		--vga_wrn <= '1';
 		vga_write_enable <= WRITE_DISABLE;--0
 		ps2_read_enable <= READ_DISABLE;--0
 		
 		ram1_data <= HIGHZ16;
-		ram1_addr <= ZERO16;
+		ram1_addr <= "00" & read_write_addr;
 		
 		case (mem_signal) is
 			when DM_READ =>
@@ -65,10 +65,8 @@ begin
 				ram1_en <= '0';
 				ram1_oe <= '0';
 				ram1_we <= '1';
-				ram1_addr <= "00" & read_write_addr;
 			when DM_WRITE =>
 				ram1_data <= write_data;
-				ram1_addr <= "00" & read_write_addr;
 				ram1_en <= '0';
 				ram1_oe <= '1';
 				ram1_we <= '0';
