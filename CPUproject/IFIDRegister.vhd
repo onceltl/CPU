@@ -12,7 +12,7 @@ entity IFIDRegister is
            pc_in : in std_logic_vector (15 downto 0);
            inst_in : in std_logic_vector (15 downto 0);
 
-           pc_out : out std_logic_vector (15 downto 0));
+           pc_out : out std_logic_vector (15 downto 0);
            inst_out : out std_logic_vector (15 downto 0));
 		   
 end IFIDRegister;
