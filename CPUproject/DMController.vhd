@@ -31,7 +31,7 @@ port (
 	vga_write_enable: out std_logic;
 	vga_write_data: out std_logic_vector(7 downto 0); --connect to vga's write_char signal
 	vga_tbre, vga_tsre: in std_logic;
-	vga_rdn, vga_wrn: out std_logic;
+	--vga_rdn, vga_wrn: out std_logic;
 	--not ensured signals until ltl finish ps2 module
 	ps2_read_enable: out std_logic;
 	ps2_read_data: in std_logic_vector(7 downto 0);
