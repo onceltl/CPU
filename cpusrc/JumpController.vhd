@@ -15,12 +15,12 @@ entity JumpController is
 			reg_a : in std_logic_vector (15 downto 0);
 			ra : in std_logic_vector (15 downto 0);
 
-			pc_out : out std_logic_vector (15 downto 0));
+			jump: out std_logic;
+			j_dest_out : out std_logic_vector (15 downto 0));
 		   
 end JumpController;
 
 architecture Behavioral of JumpController is
-	signal jump: std_logic := '0';
 begin
 
 	-- decide whether to jump
@@ -51,24 +51,19 @@ begin
 	end process;
 
 	-- choose jump dest
-	process(jump, j_dest, b_dest, pc_in, reg_a, ra)
+	process(j_dest, b_dest, pc_in, reg_a, ra)
 	begin
-		pc_out <= pc_in;
 		
-		if(jump = '1')then
-			case(j_dest)is
-				when JUMP_BDEST =>
-					pc_out <= b_dest + pc_in;
-				when JUMP_RA =>
-					pc_out <= ra;
-				when JUMP_REGX =>
-					pc_out <= reg_a;
-				when others =>
-					pc_out <= pc_in;
-			end case;
-		else	-- jump = '0'
-			pc_out <= pc_in;
-		end if;
+		case(j_dest)is
+			when JUMP_BDEST =>
+				j_dest_out <= b_dest + pc_in;
+			when JUMP_RA =>
+				j_dest_out <= ra;
+			when JUMP_REGX =>
+				j_dest_out <= reg_a;
+			when others =>
+				j_dest_out <= ZERO16;
+		end case;
 	end process;
 
 end Behavioral;
