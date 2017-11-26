@@ -1,5 +1,5 @@
 ISim log file
-Running: D:\XilinxWorkspace\CPUThinPad\CPU\CPUproject\MainController_test_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/MainController_test_isim_beh.wdb 
+Running: C:\Users\Shine\Desktop\Git\CPU\CPUproject\test_pc_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb C:/Users/Shine/Desktop/Git/CPU/CPUproject/test_pc_isim_beh.wdb 
 ISim P.20131013 (signature 0x7708f090)
 This is a Full version of ISim.
 Time resolution is 1 ps
@@ -7,4 +7,5 @@ Time resolution is 1 ps
 # wave add /
 # run 1000 ns
 Simulator is doing circuit initialization process.
+at 0 ps, Instance /test_pc/uut/u3/ : Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
 Finished circuit initialization process.
