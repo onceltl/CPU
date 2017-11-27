@@ -70,6 +70,11 @@ package constantsIF is
 	constant HIGHZ16: std_logic_vector(15 downto 0) := 		"ZZZZZZZZZZZZZZZZ";
 	constant HIGHZ8: std_logic_vector(7 downto 0) := 		"ZZZZZZZZ";
 	
+	constant ASCII_A: std_logic_vector(7 downto 0) := 			"01000001";
+	constant ASCII_0: std_logic_vector(7 downto 0) := 			"00110000";
+	constant ASCII_SPACE: std_logic_vector(7 downto 0) := 		"00100000";
+	constant ASCII_NEWLINE: std_logic_vector(7 downto 0) := 	"00001010";
+	
 	-- for side road
 	constant FORWARD_OLD: std_logic_vector(1 downto 0) := "00";
 	constant FORWARD_ALU_EX: std_logic_vector(1 downto 0) := "01";
