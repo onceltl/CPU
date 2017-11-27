@@ -10,6 +10,20 @@ entity TopLevel is
 		rst : in std_logic;
 		en : in std_logic;
 		
+		-- out for debug
+		pc_now_out: out std_logic_vector(15 downto 0);
+		inst_out: out std_logic_vector(15 downto 0);
+		reg_a_out: out std_logic_vector(15 downto 0);
+		reg_b_out: out std_logic_vector(15 downto 0);
+		alu_result_ex_out: out std_logic_vector(15 downto 0);
+		ex_mem_signal_out: out std_logic_vector(3 downto 0);
+		mem_result_out: out std_logic_vector(15 downto 0);
+		
+		ram2_en_out, ram2_oe_out, ram2_we_out: out std_logic;
+		ram2_addr_out: out std_logic_vector(17 downto 0);
+		ram2_data_out: inout std_logic_vector(15 downto 0);
+		
+		
 		--ram2_en, ram2_oe, ram2_we: out std_logic;
 		--ram2_addr: out std_logic_vector(17 downto 0);
 		--ram2_data: inout std_logic_vector(15 downto 0);
@@ -479,6 +493,21 @@ architecture Behavioral of TopLevel is
 	signal ram2_addr: std_logic_vector(17 downto 0);
 	signal ram2_data: std_logic_vector(15 downto 0);
 	
+	-- out for debug
+	pc_now_out <= pc_now;
+	inst_out <= inst;
+	reg_a_out <= reg_a;
+	reg_b_out <= reg_b;
+	alu_result_ex_out <= alu_result_ex;
+	ex_mem_signal_out <= ex_mem_signal;
+	mem_result_out <= mem_result;
+	
+	ram2_en_out <= ram2_en;
+	ram2_oe_out <= ram2_oe;
+	ram2_we_out <= ram2_we;
+	ram2_addr_out <= ram2_addr;
+	ram2_data_out <= ram2_data;
+
 -- begin here
 	
 begin
