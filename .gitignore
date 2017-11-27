@@ -1,2 +1,4 @@
 CPUproject/*
 !CPUproject/*.vhd
+!CPUproject/*.ucf
+!CPUproject/*.vhi
