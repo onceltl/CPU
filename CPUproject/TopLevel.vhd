@@ -562,7 +562,7 @@ begin
 		vga_clock => vga_wr_clk,	vga_wr_en => vga_wr_en,	vga_wr_char => vga_wr_char
 	);
 	u24: vga_test port map(
-		clk => clk_origin,	clk_write => vga_wr_clk,	rst => vga_rst,
+		clk => clk0_out,	clk_write => vga_wr_clk,	rst => vga_rst,
 		write_enable => vga_wr_en,	write_char => vga_wr_char,
 		h_sync => vga_h_sync,	v_sync => vga_v_sync,
 		red => vga_red,	green => vga_green,	blue => vga_blue
