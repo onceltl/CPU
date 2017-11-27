@@ -97,8 +97,8 @@ package constantsIF is
 	constant OP_MOVE: std_logic_vector(4 downto 0) := "01111";
 	
 	-- 11110 OP_IH inst(7 downto 0)
-	constant IH_MFIH: std_logic_vector(7 downto 0) := "00000000";
-	constant IH_MTIH: std_logic_vector(7 downto 0) := "00000001";
+	constant IH_MFIH: std_logic := '0';
+	constant IH_MTIH: std_logic := '1';
 	
 	-- 00110 OP_SHIFT inst(1 downto 0)
 	constant SHIFT_SLL: std_logic_vector(1 downto 0) := "00";
