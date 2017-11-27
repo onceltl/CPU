@@ -1,41 +1,11 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
--- Create Date:   09:09:05 11/27/2017
--- Design Name:   
--- Module Name:   C:/Users/Shine/Desktop/Git/CPU/CPUproject/TopLevel_test.vhd
--- Project Name:  CPUproject
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: TopLevel
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
  
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
  
-ENTITY TopLevel_test IS
-END TopLevel_test;
+ENTITY TopLevel_test_hs IS
+END TopLevel_test_hs;
  
-ARCHITECTURE behavior OF TopLevel_test IS 
+ARCHITECTURE behavior OF TopLevel_test_hs IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
@@ -44,6 +14,18 @@ ARCHITECTURE behavior OF TopLevel_test IS
          clk_origin : IN  std_logic;
          rst : IN  std_logic;
          en : IN  std_logic;
+         pc_now_out : OUT  std_logic_vector(15 downto 0);
+         inst_out : OUT  std_logic_vector(15 downto 0);
+         reg_a_out : OUT  std_logic_vector(15 downto 0);
+         reg_b_out : OUT  std_logic_vector(15 downto 0);
+         alu_result_ex_out : OUT  std_logic_vector(15 downto 0);
+         ex_mem_signal_out : OUT  std_logic_vector(3 downto 0);
+         mem_result_out : OUT  std_logic_vector(15 downto 0);
+         ram2_en_out : OUT  std_logic;
+         ram2_oe_out : OUT  std_logic;
+         ram2_we_out : OUT  std_logic;
+         ram2_addr_out : OUT  std_logic_vector(17 downto 0);
+         ram2_data_out : INOUT  std_logic_vector(15 downto 0);
          ram1_oe : OUT  std_logic;
          ram1_we : OUT  std_logic;
          ram1_en : OUT  std_logic;
@@ -78,9 +60,21 @@ ARCHITECTURE behavior OF TopLevel_test IS
    signal ps2_read_data : std_logic_vector(7 downto 0) := (others => '0');
 
 	--BiDirs
+   signal ram2_data_out : std_logic_vector(15 downto 0);
    signal ram1_data : std_logic_vector(15 downto 0);
 
  	--Outputs
+   signal pc_now_out : std_logic_vector(15 downto 0);
+   signal inst_out : std_logic_vector(15 downto 0);
+   signal reg_a_out : std_logic_vector(15 downto 0);
+   signal reg_b_out : std_logic_vector(15 downto 0);
+   signal alu_result_ex_out : std_logic_vector(15 downto 0);
+   signal ex_mem_signal_out : std_logic_vector(3 downto 0);
+   signal mem_result_out : std_logic_vector(15 downto 0);
+   signal ram2_en_out : std_logic;
+   signal ram2_oe_out : std_logic;
+   signal ram2_we_out : std_logic;
+   signal ram2_addr_out : std_logic_vector(17 downto 0);
    signal ram1_oe : std_logic;
    signal ram1_we : std_logic;
    signal ram1_en : std_logic;
@@ -101,6 +95,18 @@ BEGIN
           clk_origin => clk_origin,
           rst => rst,
           en => en,
+          pc_now_out => pc_now_out,
+          inst_out => inst_out,
+          reg_a_out => reg_a_out,
+          reg_b_out => reg_b_out,
+          alu_result_ex_out => alu_result_ex_out,
+          ex_mem_signal_out => ex_mem_signal_out,
+          mem_result_out => mem_result_out,
+          ram2_en_out => ram2_en_out,
+          ram2_oe_out => ram2_oe_out,
+          ram2_we_out => ram2_we_out,
+          ram2_addr_out => ram2_addr_out,
+          ram2_data_out => ram2_data_out,
           ram1_oe => ram1_oe,
           ram1_we => ram1_we,
           ram1_en => ram1_en,
@@ -134,10 +140,12 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-	  rst => 
-      wait for 100 ns;	
+		wait for 100 ns;	
+		rst <= '1';
+		en <= '1';
+		
 
-      wait for clk_origin_period*10;
+		--wait for clk_origin_period*10;
 
       -- insert stimulus here 
 

@@ -95,7 +95,7 @@ begin
 				alu_op <= ALUOP_PLUS;
 				alu_srca <= ALUSRCA_REGA;
 				alu_srcb <= ALUSRCB_IMM;
-				rd <= reg1_addr_v;
+				rd <= reg2_addr_v;
 				write_reg <= '1';
 				write_mem <= '0';
 				mem_to_reg <= '0';
