@@ -20,8 +20,8 @@ entity vgaDebugger is
 			vga_rst:  out   STD_LOGIC;  --rst
 			vga_clock: out std_logic;
 			vga_wr_en :  out STD_LOGIC;
-			vga_wr_char   :  out STD_LOGIC_VECTOR(7 downto 0);
-
+			vga_wr_char   :  out STD_LOGIC_VECTOR(7 downto 0)
+		);
 end vgaDebugger;
 
 architecture Behavioral of vgaDebugger is
@@ -41,8 +41,8 @@ begin
 		state_num := stageState;
 		if(clk_cpu = '0')then
 			cpuState <= '1';
-			stageState := ZERO8;
-			varState := ZERO8;
+			stageState <= ZERO8;
+			varState <= ZERO8;
 		elsif(rising_edge(clk_display) and (state_num <= x"06"))then
 			state_num := varState;
 			varState <= varState + '1';
@@ -124,7 +124,8 @@ begin
 			when x"04" =>
 				var <= alu_result_ex;
 			when x"05" =>
-				var <= ex_mem_signal;
+				var(15 downto 4) <= (others => '0');
+				var(3 downto 0) <= ex_mem_signal;
 			when x"06" =>
 				var <= mem_result;
 			when others =>
