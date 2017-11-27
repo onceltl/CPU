@@ -51,7 +51,7 @@ begin
 		--mem_array(28) <= "0010000110000001"; --BEQZ
 		--mem_array(29) <= "0001010000000001"; --B
 		--alu's result will be used by the instruct after it
-		mem_array(0) <= "0100100100000001";
+		mem_array(0) <= "0100100100000001";-- addiu r1 1 r1
 		mem_array(1) <= "0100100100000001";
 		mem_array(2) <= "0100100100000001";
 		mem_array(3) <= "0100100100000001";

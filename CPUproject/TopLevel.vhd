@@ -27,9 +27,9 @@ entity TopLevel is
 		--ram2_data_out: inout std_logic_vector(15 downto 0);
 		
 		
-		--ram2_en, ram2_oe, ram2_we: out std_logic;
-		--ram2_addr: out std_logic_vector(17 downto 0);
-		--ram2_data: inout std_logic_vector(15 downto 0);
+		ram2_en, ram2_oe, ram2_we: out std_logic;
+		ram2_addr: out std_logic_vector(17 downto 0);
+		ram2_data: inout std_logic_vector(15 downto 0);
 		
 		ram1_oe, ram1_we, ram1_en: out std_logic;
 		ram1_addr: out std_logic_vector(17 downto 0);
@@ -140,22 +140,22 @@ architecture Behavioral of TopLevel is
 			re_sp_ih: out std_logic; --选sp还是ih
 			immd: out std_logic_vector(15 downto 0); --扩展后的立即数立即数
 			b_dest: out std_logic_vector(15 downto 0); --符号扩展后的分支地址
-			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�	
+			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�	
 			jmp: out std_logic; --跳转控制信号
 			b_op: out std_logic_vector(1 downto 0);   --branch控制指令
 			alu_op: out std_logic_vector(2 downto 0); --alu operator
 			alu_srca: out std_logic_vector(1 downto 0); --alu sourceA
 			alu_srcb: out std_logic_vector(1 downto 0); --alu sourceB
 			t_op: out std_logic; --t register operator (not equal or < 0)
-			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�	
+			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�	
 			rd: out std_logic_vector(2 downto 0); --目的寄存器地址
 			write_reg: out std_logic; --是否写寄存器
-			write_mem: out std_logic; --是否写内�	
-			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�	
+			write_mem: out std_logic; --是否写内�	
+			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�	
 			write_sp: out std_logic; --是否写sp
 			write_ih: out std_logic; --是否写ih
-			write_t: out std_logic; --是否写t寄存�	
-			shift_imm: out std_logic_vector(15 downto 0); --移位立即�	
+			write_t: out std_logic; --是否写t寄存�	
+			shift_imm: out std_logic_vector(15 downto 0); --移位立即�	
 			reidx_a: out std_logic_vector(2 downto 0); --rx地址
 			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
@@ -488,16 +488,16 @@ architecture Behavioral of TopLevel is
 		);
 	end component;
 	
-	component SRAM 
-		port(
-			RAM_OE, RAM_WE, RAM_EN: in std_logic;
-			RAM_Addr: in std_logic_vector(17 downto 0);
-			RAM_Data: inout std_logic_vector(15 downto 0)
-		);
-	end component;
-	signal ram2_en, ram2_oe, ram2_we: std_logic;
-	signal ram2_addr: std_logic_vector(17 downto 0);
-	signal ram2_data: std_logic_vector(15 downto 0);
+	--component SRAM 
+	--	port(
+	--		RAM_OE, RAM_WE, RAM_EN: in std_logic;
+	--		RAM_Addr: in std_logic_vector(17 downto 0);
+	--		RAM_Data: inout std_logic_vector(15 downto 0)
+	--	);
+	--end component;
+	--signal ram2_en, ram2_oe, ram2_we: std_logic;
+	--signal ram2_addr: std_logic_vector(17 downto 0);
+	--signal ram2_data: std_logic_vector(15 downto 0);
 	
 	component vga_test
 		PORT(
@@ -577,10 +577,10 @@ begin
 	--mem_result_out <= mem_result;
 
 	
-	u23: SRAM port map(
-		RAM_OE => ram2_oe,	RAM_WE => ram2_we,	RAM_EN => ram2_en,
-		RAM_Addr => ram2_addr,		RAM_Data => ram2_data
-	);
+	--u23: SRAM port map(
+	--	RAM_OE => ram2_oe,	RAM_WE => ram2_we,	RAM_EN => ram2_en,
+	--	RAM_Addr => ram2_addr,		RAM_Data => ram2_data
+	--);
 	
 	u1: PC port map(
 		clk => clk,		rst => rst,		wr => wr_pc,
