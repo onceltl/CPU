@@ -52,13 +52,13 @@ begin
 		b_dest <= ZERO16; 
 		jmp_dest <= "00"; 
 		jmp <= '0'; 
-		b_op <= "00"; 
+		b_op <= BRANCH_NONE; 
 		alu_op <= "000"; 
 		alu_srca <= "00"; 
 		alu_srcb <= "00"; 
 		t_op <= '0'; 
 		datasrc <= '0';
-		rd <= "000"; 
+		rd <= ZERO3; 
 		write_reg <= '0'; 
 		write_mem <= '0'; 
 		mem_to_reg <= '0'; 
