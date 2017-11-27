@@ -10,9 +10,9 @@ entity TopLevel is
 		rst : in std_logic;
 		en : in std_logic;
 		
-		ram2_en, ram2_oe, ram2_we: out std_logic;
-		ram2_addr: out std_logic_vector(17 downto 0);
-		ram2_data: inout std_logic_vector(15 downto 0);
+		--ram2_en, ram2_oe, ram2_we: out std_logic;
+		--ram2_addr: out std_logic_vector(17 downto 0);
+		--ram2_data: inout std_logic_vector(15 downto 0);
 		
 		ram1_oe, ram1_we, ram1_en: out std_logic;
 		ram1_addr: out std_logic_vector(17 downto 0);
@@ -468,10 +468,26 @@ architecture Behavioral of TopLevel is
 		);
 	end component;
 	
+	component SRAM 
+		port(
+			RAM_OE, RAM_WE, RAM_EN: in std_logic;
+			RAM_Addr: in std_logic_vector(17 downto 0);
+			RAM_Data: inout std_logic_vector(15 downto 0)
+		);
+	end component;
+	signal ram2_en, ram2_oe, ram2_we: std_logic;
+	signal ram2_addr: std_logic_vector(17 downto 0);
+	signal ram2_data: std_logic_vector(15 downto 0);
+	
 -- begin here
 	
 begin
 	clk <= clk_origin;
+	
+	u23: SRAM port map(
+		RAM_OE => ram2_oe,	RAM_WE => ram2_we,	RAM_EN => ram2_en,
+		RAM_Addr => ram2_addr,		RAM_Data => ram2_data
+	);
 	
 	u1: PC port map(
 		clk => clk,		rst => rst,		wr => wr_pc,
