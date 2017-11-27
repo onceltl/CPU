@@ -9,7 +9,7 @@ entity TopLevel is
 		clk_origin : in std_logic;
 		--clk_vga: in std_logic;
 		clk_cpu: in std_logic;
-		--clk_display: in std_logic;
+		clk_display: in std_logic;
 		rst : in std_logic;
 		en : in std_logic;
 		
@@ -140,22 +140,22 @@ architecture Behavioral of TopLevel is
 			re_sp_ih: out std_logic; --选sp还是ih
 			immd: out std_logic_vector(15 downto 0); --扩展后的立即数立即数
 			b_dest: out std_logic_vector(15 downto 0); --符号扩展后的分支地址
-			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�		
+			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�		
 			jmp: out std_logic; --跳转控制信号
 			b_op: out std_logic_vector(1 downto 0);   --branch控制指令
 			alu_op: out std_logic_vector(2 downto 0); --alu operator
 			alu_srca: out std_logic_vector(1 downto 0); --alu sourceA
 			alu_srcb: out std_logic_vector(1 downto 0); --alu sourceB
 			t_op: out std_logic; --t register operator (not equal or < 0)
-			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�		
+			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�		
 			rd: out std_logic_vector(2 downto 0); --目的寄存器地址
 			write_reg: out std_logic; --是否写寄存器
-			write_mem: out std_logic; --是否写内�		
-			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�		
+			write_mem: out std_logic; --是否写内�		
+			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�		
 			write_sp: out std_logic; --是否写sp
 			write_ih: out std_logic; --是否写ih
-			write_t: out std_logic; --是否写t寄存�		
-			shift_imm: out std_logic_vector(15 downto 0); --移位立即�		
+			write_t: out std_logic; --是否写t寄存�		
+			shift_imm: out std_logic_vector(15 downto 0); --移位立即�		
 			reidx_a: out std_logic_vector(2 downto 0); --rx地址
 			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
@@ -542,7 +542,7 @@ architecture Behavioral of TopLevel is
 			LOCKED_OUT      : out   std_logic
 		);
 	end component;
-	signal clk0_out, clk2x_out, locked_out: std_logic;
+	signal clk0_out, clkfx_out, locked_out: std_logic;
 	
 -- begin here
 	
@@ -551,11 +551,11 @@ begin
 	--clk_vga <= clk_origin;
 	
 	u26: clkGenerator port map(
-		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clk_display,
+		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clkfx_out,
 		CLK0_OUT => clk0_out,	LOCKED_OUT => locked_out
 	);
 	u25: vgaDebugger port map(
-		clk_cpu => clk,	clk_display => clk,	pc_now => now_pc,
+		clk_cpu => clk,	clk_display => clk_display,	pc_now => now_pc,
 		inst => inst,	reg_a => id_reg_a,				reg_b => id_reg_b,
 		alu_result_ex => alu_result_ex,	ex_mem_signal => ex_mem_signal,
 		mem_result => mem_result,	vga_rst => vga_rst,
