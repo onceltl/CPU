@@ -1,5 +1,4 @@
 
-# PlanAhead Generated physical constraints 
 
 NET "ram1_addr[17]" LOC = H17;
 NET "ram1_addr[16]" LOC = H16;
@@ -58,3 +57,7 @@ NET "serial_tsre" LOC = N9;
 NET "serial_wrn" LOC = U5;
 NET "vga_h_sync" LOC = D6;
 NET "vga_v_sync" LOC = E6;
+
+# PlanAhead Generated physical constraints 
+
+NET "clk_display" LOC = B8;

@@ -106,7 +106,7 @@ begin
 		end if;
 		
 		-- a fake ram
-		read_result <= read_write_addr;
+		--read_result <= read_write_addr;
 	end process; -- getResult
 
 end architecture; -- arch
