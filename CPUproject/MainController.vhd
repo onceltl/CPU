@@ -65,9 +65,17 @@ begin
 		write_sp <= '0'; 
 		write_ih <= '0'; 
 		write_t <= '0';
-		shift_imm <= ZERO16;
+		--shift_imm <= ZERO16;
 		reidx_a <= inst(10 downto 8);
 		reidx_b <= inst(7 downto 5);
+		
+		if(inst(4 downto 2) = "000") then
+			shift_imm <= "0000000000001000";
+		else
+			shift_imm(15 downto 3) <= (others => '0');
+			shift_imm(2 downto 0) <= inst(4 downto 2);
+		end if;
+		
 		
 		case (inst_temp) is
 			when OP_ADDIU =>
@@ -261,12 +269,6 @@ begin
 						write_sp <= '0';
 						write_ih <= '0';
 						write_t <= '0';
-						if(inst(4 downto 2) = "000") then
-							shift_imm <= "0000000000001000";
-						else
-							shift_imm(15 downto 3) <= "0000000000000";
-							shift_imm(2 downto 0) <= inst(4 downto 2);
-						end if;
  					when SHIFT_SRA =>
 		 				wr_ra <= '0';
 						jmp <= '0';
@@ -281,12 +283,6 @@ begin
 						write_sp <= '0';
 						write_ih <= '0';
 						write_t <= '0';	
-						if(inst(4 downto 2) = "000") then
-							shift_imm <= "0000000000001000";
-						else
-							shift_imm(15 downto 3) <= "0000000000000";
-							shift_imm(2 downto 0) <= inst(4 downto 2);
-						end if;
  					when others =>
  				
  				end case ; 	
