@@ -57,7 +57,7 @@ architecture Behavioral of TopLevel is
 	signal now_pc: std_logic_vector(15 downto 0);
 	signal clk: std_logic;
 	signal wr_pc: std_logic;
-	
+
 	component JumpController
 		port(
 			jmp : in std_logic;
@@ -133,22 +133,22 @@ architecture Behavioral of TopLevel is
 			re_sp_ih: out std_logic; --选sp还是ih
 			immd: out std_logic_vector(15 downto 0); --扩展后的立即数立即数
 			b_dest: out std_logic_vector(15 downto 0); --符号扩展后的分支地址
-			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
+			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�			
 			jmp: out std_logic; --跳转控制信号
 			b_op: out std_logic_vector(1 downto 0);   --branch控制指令
 			alu_op: out std_logic_vector(2 downto 0); --alu operator
 			alu_srca: out std_logic_vector(1 downto 0); --alu sourceA
 			alu_srcb: out std_logic_vector(1 downto 0); --alu sourceB
 			t_op: out std_logic; --t register operator (not equal or < 0)
-			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
+			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�			
 			rd: out std_logic_vector(2 downto 0); --目的寄存器地址
 			write_reg: out std_logic; --是否写寄存器
-			write_mem: out std_logic; --是否写内�
-			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
+			write_mem: out std_logic; --是否写内�			
+			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�			
 			write_sp: out std_logic; --是否写sp
 			write_ih: out std_logic; --是否写ih
-			write_t: out std_logic; --是否写t寄存�
-			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
+			write_t: out std_logic; --是否写t寄存�			
+			shift_imm: out std_logic_vector(15 downto 0); --移位立即�			
 			reidx_a: out std_logic_vector(2 downto 0); --rx地址
 			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
@@ -493,11 +493,15 @@ architecture Behavioral of TopLevel is
 	signal ram2_addr: std_logic_vector(17 downto 0);
 	signal ram2_data: std_logic_vector(15 downto 0);
 	
+-- begin here
+	
+begin
+	clk <= clk_origin;
 	-- out for debug
-	pc_now_out <= pc_now;
+	pc_now_out <= now_pc;
 	inst_out <= inst;
-	reg_a_out <= reg_a;
-	reg_b_out <= reg_b;
+	reg_a_out <= ex_reg_a;
+	reg_b_out <= ex_reg_b;
 	alu_result_ex_out <= alu_result_ex;
 	ex_mem_signal_out <= ex_mem_signal;
 	mem_result_out <= mem_result;
@@ -508,10 +512,6 @@ architecture Behavioral of TopLevel is
 	ram2_addr_out <= ram2_addr;
 	ram2_data_out <= ram2_data;
 
--- begin here
-	
-begin
-	clk <= clk_origin;
 	
 	u23: SRAM port map(
 		RAM_OE => ram2_oe,	RAM_WE => ram2_we,	RAM_EN => ram2_en,
