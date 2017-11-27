@@ -43,7 +43,7 @@ begin
 			cpuState <= '1';
 			stageState <= ZERO8;
 			varState <= ZERO8;
-		elsif(rising_edge(clk_display) and (state_num <= x"06"))then
+		elsif(rising_edge(clk_display) and (state_num <= x"07"))then
 			state_num := varState;
 			varState <= varState + '1';
 			if(state_num >= x"07")then
@@ -59,7 +59,7 @@ begin
 		vga_wr_en <= '0';
 		vga_clock <= '0';
 		state_num := stageState;
-		if (state_num <= x"06") and (state_num >= x"01") and (clk_cpu = '1') then
+		if (state_num <= x"07") and (state_num >= x"01") and (clk_cpu = '1') then
 			vga_wr_en <= '1';
 			vga_clock <= not clk_display;
 		end if;
@@ -113,20 +113,20 @@ begin
 	process(stageState, pc_now, inst, reg_a, reg_b, alu_result_ex, ex_mem_signal, mem_result)
 	begin
 		case(stageState)is
-			when x"00" =>
-				var <= pc_now;
 			when x"01" =>
-				var <= inst;
+				var <= pc_now;
 			when x"02" =>
-				var <= reg_a;
+				var <= inst;
 			when x"03" =>
-				var <= reg_b;
+				var <= reg_a;
 			when x"04" =>
-				var <= alu_result_ex;
+				var <= reg_b;
 			when x"05" =>
+				var <= alu_result_ex;
+			when x"06" =>
 				var(15 downto 4) <= (others => '0');
 				var(3 downto 0) <= ex_mem_signal;
-			when x"06" =>
+			when x"07" =>
 				var <= mem_result;
 			when others =>
 				var <= (others => '1');
