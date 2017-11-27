@@ -7,21 +7,24 @@ use work.constantsIF.all;
 entity TopLevel is
     port (
 		clk_origin : in std_logic;
+		--clk_vga: in std_logic;
+		clk_cpu: in std_logic;
+		--clk_display: in std_logic;
 		rst : in std_logic;
 		en : in std_logic;
 		
 		-- out for debug
-		pc_now_out: out std_logic_vector(15 downto 0);
-		inst_out: out std_logic_vector(15 downto 0);
-		reg_a_out: out std_logic_vector(15 downto 0);
-		reg_b_out: out std_logic_vector(15 downto 0);
-		alu_result_ex_out: out std_logic_vector(15 downto 0);
-		ex_mem_signal_out: out std_logic_vector(3 downto 0);
-		mem_result_out: out std_logic_vector(15 downto 0);
+		--pc_now_out: out std_logic_vector(15 downto 0);
+		--inst_out: out std_logic_vector(15 downto 0);
+		--reg_a_out: out std_logic_vector(15 downto 0);
+		--reg_b_out: out std_logic_vector(15 downto 0);
+		--alu_result_ex_out: out std_logic_vector(15 downto 0);
+		--ex_mem_signal_out: out std_logic_vector(3 downto 0);
+		--mem_result_out: out std_logic_vector(15 downto 0);
 		
-		ram2_en_out, ram2_oe_out, ram2_we_out: out std_logic;
-		ram2_addr_out: out std_logic_vector(17 downto 0);
-		ram2_data_out: inout std_logic_vector(15 downto 0);
+		--ram2_en_out, ram2_oe_out, ram2_we_out: out std_logic;
+		--ram2_addr_out: out std_logic_vector(17 downto 0);
+		--ram2_data_out: inout std_logic_vector(15 downto 0);
 		
 		
 		--ram2_en, ram2_oe, ram2_we: out std_logic;
@@ -34,10 +37,14 @@ entity TopLevel is
 
 		serial_tbre,	serial_tsre, 	serial_data_ready: 	in std_logic;
 		serial_rdn, 	serial_wrn: 						out std_logic;
-		vga_tbre, 		vga_tsre, 		ps2_data_ready: 	in std_logic;
+		ps2_data_ready:									 	in std_logic;
+		ps2_read_enable:									out std_logic;
 		ps2_read_data: 										in std_logic_vector(7 downto 0);
-		vga_write_data:										out std_logic_vector(7 downto 0);
-		vga_write_enable, 				ps2_read_enable: 	out std_logic
+		--vga_write_data:										out std_logic_vector(7 downto 0);
+		--vga_write_enable, 	vga_clock,	ps2_read_enable: 	out std_logic
+		vga_h_sync					: out  STD_LOGIC;  --horiztonal sync pulse
+		vga_v_sync       			: out  STD_LOGIC;  --vertical sync pulse
+		vga_red, vga_green, vga_blue : out STD_LOGIC_VECTOR(2 downto 0)
 		
 	);
 end TopLevel;
@@ -391,8 +398,7 @@ architecture Behavioral of TopLevel is
 			ram1_data: inout std_logic_vector(15 downto 0);
 			vga_write_enable: out std_logic;
 			vga_write_data: out std_logic_vector(7 downto 0); --connect to vga's write_char signal
-			vga_tbre, vga_tsre: in std_logic;
-			--vga_rdn, vga_wrn: out std_logic;
+			vga_clk: out std_logic;
 			ps2_read_enable: out std_logic;
 			ps2_read_data: in std_logic_vector(7 downto 0);
 			ps2_data_ready: in std_logic
@@ -493,24 +499,82 @@ architecture Behavioral of TopLevel is
 	signal ram2_addr: std_logic_vector(17 downto 0);
 	signal ram2_data: std_logic_vector(15 downto 0);
 	
+	component vga_test
+		PORT(
+			clk          :  IN   STD_LOGIC;  --50M
+			clk_write    :  IN   STD_LOGIC; -- System: 12.5M
+			rst          :  IN   STD_LOGIC;  --rst
+			write_enable :  IN STD_LOGIC;
+			write_char   :  IN STD_LOGIC_VECTOR(7 downto 0);
+			h_sync       :  OUT  STD_LOGIC;  --horiztonal sync pulse
+			v_sync       :  OUT  STD_LOGIC;  --vertical sync pulse
+			red, green, blue : out STD_LOGIC_VECTOR(2 downto 0)
+		); 
+	end component;
+	signal clk_vga, clk_display: std_logic;
+	signal vga_rst, vga_wr_clk, vga_wr_en : std_logic;
+	signal vga_wr_char: std_logic_vector(7 downto 0);
+	component vgaDebugger
+		port(
+			clk_cpu : in std_logic;
+			clk_display : in std_logic;
+			pc_now: in std_logic_vector(15 downto 0);
+			inst: in std_logic_vector(15 downto 0);
+			reg_a: in std_logic_vector(15 downto 0);
+			reg_b: in std_logic_vector(15 downto 0);
+			alu_result_ex: in std_logic_vector(15 downto 0);
+			ex_mem_signal: in std_logic_vector(3 downto 0);
+			mem_result: in std_logic_vector(15 downto 0);
+			vga_rst:  out   STD_LOGIC;  --rst
+			vga_clock: out std_logic;
+			vga_wr_en :  out STD_LOGIC;
+			vga_wr_char   :  out STD_LOGIC_VECTOR(7 downto 0)
+		);
+	end component;
+	
+	component clkGenerator
+		port (
+			CLKIN_IN        : in    std_logic; 
+			RST_IN          : in    std_logic; 
+			CLKFX_OUT       : out   std_logic; 
+			CLKIN_IBUFG_OUT : out   std_logic; 
+			CLK0_OUT        : out   std_logic; 
+			LOCKED_OUT      : out   std_logic
+		);
+	end component;
+	signal clk0_out, clk2x_out, locked_out: std_logic;
+	
 -- begin here
 	
 begin
-	clk <= clk_origin;
-	-- out for debug
-	pc_now_out <= now_pc;
-	inst_out <= inst;
-	reg_a_out <= ex_reg_a;
-	reg_b_out <= ex_reg_b;
-	alu_result_ex_out <= alu_result_ex;
-	ex_mem_signal_out <= ex_mem_signal;
-	mem_result_out <= mem_result;
+	clk <= clk_cpu;
+	clk_vga <= clk_origin;
 	
-	ram2_en_out <= ram2_en;
-	ram2_oe_out <= ram2_oe;
-	ram2_we_out <= ram2_we;
-	ram2_addr_out <= ram2_addr;
-	ram2_data_out <= ram2_data;
+	u26: clkGenerator port map(
+		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clk_display,
+		CLK0_OUT => clk0_out,	LOCKED_OUT => locked_out
+	);
+	u25: vgaDebugger port map(
+		clk_cpu => clk,	clk_display => clk_display,	pc_now => now_pc,
+		inst => inst,	reg_a => id_reg_a,				reg_b => id_reg_b,
+		alu_result_ex => alu_result_ex,	ex_mem_signal => ex_mem_signal,
+		mem_result => mem_result,	vga_rst => vga_rst,
+		vga_clock => vga_wr_clk,	vga_wr_en => vga_wr_en,	vga_wr_char => vga_wr_char
+	);
+	u24: vga_test port map(
+		clk => clk_vga,	clk_write => vga_wr_clk,	rst => vga_rst,
+		write_enable => vga_wr_en,	write_char => vga_wr_char,
+		h_sync => vga_h_sync,	v_sync => vga_v_sync,
+		red => vga_red,	green => vga_green,	blue => vga_blue
+	);
+	-- out for debug
+	--pc_now_out <= now_pc;
+	--inst_out <= inst;
+	--reg_a_out <= ex_reg_a;
+	--reg_b_out <= ex_reg_b;
+	--alu_result_ex_out <= alu_result_ex;
+	--ex_mem_signal_out <= ex_mem_signal;
+	--mem_result_out <= mem_result;
 
 	
 	u23: SRAM port map(
@@ -623,8 +687,7 @@ begin
 		serial_rdn => serial_rdn,	serial_wrn => serial_wrn,
 		ram1_oe => ram1_oe,		ram1_we => ram1_we,		ram1_en => ram1_en,
 		ram1_addr => ram1_addr,		ram1_data => ram1_data,
-		vga_write_enable => vga_write_enable,	vga_write_data => vga_write_data,
-		vga_tbre => vga_tbre,	vga_tsre => vga_tsre,
+		--vga_write_enable => vga_write_enable,	vga_write_data => vga_write_data,	vga_clk => 
 		ps2_read_enable => ps2_read_enable,	ps2_read_data => ps2_read_data,	ps2_data_ready => ps2_data_ready
 	);
 	u18: RAMSrcMux port map(
