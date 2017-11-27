@@ -65,7 +65,7 @@ begin
 		end if;
 	end process;
 	
-	process(varState, var)
+	process(varState, var, stageState)
 	variable state_num: std_logic_vector(7 downto 0) := ZERO8;
 	variable temp_num: std_logic_vector(3 downto 0) := x"0";
 	begin
