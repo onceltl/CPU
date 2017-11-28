@@ -58,6 +58,45 @@ NET "serial_wrn" LOC = U5;
 NET "vga_h_sync" LOC = D6;
 NET "vga_v_sync" LOC = E6;
 
-# PlanAhead Generated physical constraints 
 
 NET "clk_display" LOC = B8;
+
+# PlanAhead Generated physical constraints 
+
+NET "ram2_addr[17]" LOC = U15;
+NET "ram2_addr[16]" LOC = U16;
+NET "ram2_addr[15]" LOC = V9;
+NET "ram2_addr[14]" LOC = V12;
+NET "ram2_addr[13]" LOC = V13;
+NET "ram2_addr[12]" LOC = V15;
+NET "ram2_addr[11]" LOC = U18;
+NET "ram2_addr[10]" LOC = T18;
+NET "ram2_addr[9]" LOC = T17;
+NET "ram2_addr[8]" LOC = R18;
+NET "ram2_addr[7]" LOC = R16;
+NET "ram2_addr[6]" LOC = R15;
+NET "ram2_addr[5]" LOC = P18;
+NET "ram2_addr[4]" LOC = P17;
+NET "ram2_addr[3]" LOC = P16;
+NET "ram2_addr[2]" LOC = N18;
+NET "ram2_addr[1]" LOC = N15;
+NET "ram2_addr[0]" LOC = N14;
+NET "ram2_data[15]" LOC = N11;
+NET "ram2_data[14]" LOC = N12;
+NET "ram2_data[13]" LOC = P10;
+NET "ram2_data[12]" LOC = P11;
+NET "ram2_data[11]" LOC = P12;
+NET "ram2_data[10]" LOC = P13;
+NET "ram2_data[9]" LOC = R10;
+NET "ram2_data[8]" LOC = R11;
+NET "ram2_data[7]" LOC = R12;
+NET "ram2_data[6]" LOC = R14;
+NET "ram2_data[5]" LOC = R13;
+NET "ram2_data[4]" LOC = T12;
+NET "ram2_data[3]" LOC = T14;
+NET "ram2_data[2]" LOC = T15;
+NET "ram2_data[1]" LOC = T16;
+NET "ram2_data[0]" LOC = U13;
+NET "ram2_en" LOC = N10;
+NET "ram2_oe" LOC = R9;
+NET "ram2_we" LOC = M9;
