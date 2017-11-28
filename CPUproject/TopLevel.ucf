@@ -44,11 +44,11 @@ NET "vga_red[2]" LOC = A4;
 NET "vga_red[1]" LOC = C3;
 NET "vga_red[0]" LOC = A7;
 NET "clk_origin" LOC = B9;
-NET "en" LOC = J6;
+
 NET "ram1_en" LOC = M15;
 NET "ram1_oe" LOC = M16;
 NET "ram1_we" LOC = M18;
-NET "rst" LOC = U10;
+
 NET "serial_data_ready" LOC = A16;
 NET "serial_rdn" LOC = C14;
 NET "serial_tbre" LOC = D14;
@@ -97,7 +97,6 @@ NET "ram2_en" LOC = N10;
 NET "ram2_oe" LOC = R9;
 NET "ram2_we" LOC = M9;
 
-# PlanAhead Generated physical constraints 
 
 NET "vga_rst" LOC = T7;
 
@@ -106,7 +105,7 @@ NET "flash_addr[21]" LOC = K5;
 NET "flash_addr[20]" LOC = K6;
 NET "flash_addr[19]" LOC = L1;
 NET "flash_addr[18]" LOC = L2;
-NET "flash_addr[17]" LOC = l3;
+NET "flash_addr[17]" LOC = L3;
 NET "flash_addr[16]" LOC = L4;
 NET "flash_addr[15]" LOC = L5;
 NET "flash_addr[14]" LOC = L6;
@@ -147,4 +146,10 @@ NET "flash_vpen" LOC = C2;
 NET "flash_rp" LOC = D1;
 NET "flash_ce" LOC = E4;
 NET "flash_oe" LOC = E1;
-NET "flash_we" LOC = D4;	
+NET "flash_we" LOC = D4;
+
+# PlanAhead Generated physical constraints 
+
+NET "cpu_en" LOC = J6;
+NET "cpu_rst" LOC = U10;
+NET "flash_rst" LOC = R1;
