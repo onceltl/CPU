@@ -12,6 +12,7 @@ entity TopLevel is
 		--clk_display: in std_logic;
 		rst : in std_logic;
 		en : in std_logic;
+		vga_rst: in std_logic;
 		
 		-- out for debug
 		--pc_now_out: out std_logic_vector(15 downto 0);
@@ -108,6 +109,7 @@ architecture Behavioral of TopLevel is
 	
 	component IMController
 		port(
+			clk: in std_logic;
 			input_pc, input_alu: in std_logic_vector(15 downto 0);	
 			write_data: in std_logic_vector(15 downto 0);
 			mem_signal: in std_logic_vector(3 downto 0);
@@ -140,22 +142,22 @@ architecture Behavioral of TopLevel is
 			re_sp_ih: out std_logic; --选sp还是ih
 			immd: out std_logic_vector(15 downto 0); --扩展后的立即数立即数
 			b_dest: out std_logic_vector(15 downto 0); --符号扩展后的分支地址
-			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
+			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
 			jmp: out std_logic; --跳转控制信号
 			b_op: out std_logic_vector(1 downto 0);   --branch控制指令
 			alu_op: out std_logic_vector(2 downto 0); --alu operator
 			alu_srca: out std_logic_vector(1 downto 0); --alu sourceA
 			alu_srcb: out std_logic_vector(1 downto 0); --alu sourceB
 			t_op: out std_logic; --t register operator (not equal or < 0)
-			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
+			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
 			rd: out std_logic_vector(2 downto 0); --目的寄存器地址
 			write_reg: out std_logic; --是否写寄存器
-			write_mem: out std_logic; --是否写内�
-			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
+			write_mem: out std_logic; --是否写内�
+			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
 			write_sp: out std_logic; --是否写sp
 			write_ih: out std_logic; --是否写ih
-			write_t: out std_logic; --是否写t寄存�
-			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
+			write_t: out std_logic; --是否写t寄存�
+			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
 			reidx_a: out std_logic_vector(2 downto 0); --rx地址
 			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
@@ -511,7 +513,8 @@ architecture Behavioral of TopLevel is
 			red, green, blue : out STD_LOGIC_VECTOR(2 downto 0)
 		); 
 	end component;
-	signal vga_rst, vga_wr_clk, vga_wr_en : std_logic;
+--	signal vga_rst, vga_wr_clk, vga_wr_en : std_logic;
+	signal vga_wr_clk, vga_wr_en : std_logic;
 	signal vga_wr_char: std_logic_vector(7 downto 0);
 	--component vgaDebugger
 	--	port(
@@ -599,6 +602,7 @@ begin
 		jump_dest => jump_dest,	pc_out => next_pc
 	);
 	u5: IMController port map(
+		clk => clk,
 		input_pc => now_pc,	input_alu => alu_result_mem,	write_data => mem_wr_data,
 		mem_signal => mem_mem_signal,	read_result => im_data,
 		ram2_oe => ram2_oe,	ram2_we => ram2_we,	ram2_en => ram2_en,
