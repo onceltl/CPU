@@ -606,7 +606,7 @@ begin
 	);
 	u27: clkGenerator2 port map(
 		CLKIN_IN => clkfx_out,	RST_IN => '0',	CLKIN_IBUFG_OUT => clkin_ibufg_out_2,
-		CLK0_OUT => clk0_out_2,	CLK90_OUT => clk90_out_2,	LOCKED_OUT => locked_out
+		CLK0_OUT => clk0_out_2,	CLK90_OUT => clk90_out_2,	LOCKED_OUT => locked_out_2
 	);
 	u26: clkGenerator port map(
 		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clkfx_out,
