@@ -58,7 +58,6 @@ NET "vga_h_sync" LOC = D6;
 NET "vga_v_sync" LOC = E6;
 
 
-# PlanAhead Generated physical constraints 
 
 NET "ram2_addr[17]" LOC = U15;
 NET "ram2_addr[16]" LOC = U16;
@@ -97,3 +96,7 @@ NET "ram2_data[0]" LOC = U13;
 NET "ram2_en" LOC = N10;
 NET "ram2_oe" LOC = R9;
 NET "ram2_we" LOC = M9;
+
+# PlanAhead Generated physical constraints 
+
+NET "vga_rst" LOC = T7;
