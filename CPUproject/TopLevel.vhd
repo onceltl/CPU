@@ -546,6 +546,19 @@ architecture Behavioral of TopLevel is
 		);
 	end component;
 	signal clk0_out, clkfx_out, clkin_ibufg_out, locked_out: std_logic;
+	signal ram_clk: std_logic;
+
+	component ClkGenerator2
+		port(
+			CLKIN_IN        : in    std_logic; 
+			RST_IN          : in    std_logic; 
+			CLKIN_IBUFG_OUT : out   std_logic; 
+			CLK0_OUT        : out   std_logic; 
+			CLK90_OUT       : out   std_logic; 
+			LOCKED_OUT      : out   std_logic
+		);
+	end component;
+	signal clk0_out_2, clk90_out_2, clkin_ibufg_out_2, locked_out_2: std_logic;
 	
 	component Bootstrap
 		port(
@@ -571,7 +584,8 @@ architecture Behavioral of TopLevel is
 -- begin here
 	
 begin
-	clk <= clkfx_out;
+	clk <= clk0_out_2;
+	ram_clk <= clk0_out_2 and clk90_out_2;
 	en <= cpu_en and flash_finished;
 	rst <= cpu_rst and flash_finished;
 	ram2_en <= ram2_en_flash when flash_finished = '0' else ram2_en_cpu;
@@ -582,13 +596,17 @@ begin
 	en_led <= en;
 	rst_led <= rst;
 	
-	u27: Bootstrap port map(
+	u28: Bootstrap port map(
 		clk => clk,	rst => flash_rst,	ram2_addr => ram2_addr_flash,
 		ram2_data => ram2_data,	ram2_en => ram2_en_flash,	ram2_oe => ram2_oe_flash,
 		ram2_we => ram2_we_flash,	flash_finished => flash_finished,	flash_addr => flash_addr,
 		flash_data => flash_data,	flash_byte => flash_byte,	flash_vpen => flash_vpen,
 		flash_rp => flash_rp,		flash_ce => flash_ce,	flash_oe => flash_oe,
 		flash_we => flash_we
+	);
+	u27: clkGenerator2 port map(
+		CLKIN_IN => clkfx_out,	RST_IN => '0',	CLKIN_IBUFG_OUT => clkin_ibufg_out_2,
+		CLK0_OUT => clk0_out_2,	CLK90_OUT => clk90_out_2,	LOCKED_OUT => locked_out
 	);
 	u26: clkGenerator port map(
 		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clkfx_out,
@@ -640,7 +658,7 @@ begin
 		jump_dest => jump_dest,	pc_out => next_pc
 	);
 	u5: IMController port map(
-		clk => clk,
+		clk => ram_clk,
 		input_pc => now_pc,	input_alu => alu_result_mem,	write_data => mem_wr_data,
 		mem_signal => mem_mem_signal,	read_result => im_data,
 		ram2_oe => ram2_oe_cpu,	ram2_we => ram2_we_cpu,	ram2_en => ram2_en_cpu,
@@ -722,7 +740,7 @@ begin
 		result_out => alu_result_mem,	data_out => mem_wr_data,	rd_out => mem_rd
 	);
 	u17: DMController port map(
-		clk => clk,		read_write_addr => alu_result_mem,	write_data => mem_wr_data,
+		clk => ram_clk,		read_write_addr => alu_result_mem,	write_data => mem_wr_data,
 		mem_signal => mem_mem_signal,	read_result => dm_data,	serial_tbre => serial_tbre,
 		serial_tsre => serial_tsre,	serial_data_ready => serial_data_ready,
 		serial_rdn => serial_rdn,	serial_wrn => serial_wrn,
