@@ -31,6 +31,8 @@ begin
 				mem_signal <= DM_WRITE;
 			elsif(res = x"BF00")then
 				mem_signal <= SERIAL_DATA_WRITE;
+			elsif(res = x"BF02") then
+				mem_signal <= VGA_WRITE;
 			end if;
 			
 			if(res >= x"8000")then

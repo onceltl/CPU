@@ -41,13 +41,13 @@ port(
 		ram2_addr : out std_logic_vector(17 downto 0); 	--RAM2地址总线
 		ram2_data : inout std_logic_vector(15 downto 0);--RAM2数据总线
 		
-		ram2AddrOutput : out std_logic_vector(17 downto 0);
+		--ram2AddrOutput : out std_logic_vector(17 downto 0);
 		
 		ram2_en : out std_logic;		--RAM2使能，='1'禁止，永远等于'0'
 		ram2_oe : out std_logic;		--RAM2读使能，='1'禁止
 		ram2_we : out std_logic;		--RAM2写使能，='1'禁止
 		
-		FlashStateOut : out std_logic_vector(2 downto 0); --调试信息
+		--FlashStateOut : out std_logic_vector(2 downto 0); --调试信息
 		
 		flash_finished : out std_logic := '0';
 		
@@ -134,7 +134,7 @@ begin
 							flash_oe <= '1';
 							ram2_we <= '0';
 							ram2_addr <= "00" & current_addr;
-							ram2AddrOutput <= "00" & current_addr;	--调试
+							--ram2AddrOutput <= "00" & current_addr;	--调试
 							ram2_data <= flash_data;
 							flashstate <= "110";
 						
@@ -165,7 +165,7 @@ begin
 	end process;
 	
 	flash_finished <= local_flash_finished;
-	FlashStateOut <= flashstate;
+	--FlashStateOut <= flashstate;
 
 end Behavioral;
 
