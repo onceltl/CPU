@@ -7,26 +7,10 @@ use work.constantsIF.all;
 entity TopLevel is
     port (
 		clk_origin : in std_logic;
-		--clk_vga: in std_logic;
-		--clk_cpu: in std_logic; 
-		--clk_display: in std_logic;
-		rst : in std_logic;
-		en : in std_logic;
+		cpu_rst : in std_logic;
+		cpu_en : in std_logic;
 		vga_rst: in std_logic;
-		
-		-- out for debug
-		--pc_now_out: out std_logic_vector(15 downto 0);
-		--inst_out: out std_logic_vector(15 downto 0);
-		--reg_a_out: out std_logic_vector(15 downto 0);
-		--reg_b_out: out std_logic_vector(15 downto 0);
-		--alu_result_ex_out: out std_logic_vector(15 downto 0);
-		--ex_mem_signal_out: out std_logic_vector(3 downto 0);
-		--mem_result_out: out std_logic_vector(15 downto 0);
-		
-		--ram2_en_out, ram2_oe_out, ram2_we_out: out std_logic;
-		--ram2_addr_out: out std_logic_vector(17 downto 0);
-		--ram2_data_out: inout std_logic_vector(15 downto 0);
-		
+		flash_rst: in std_logic;
 		
 		ram2_en, ram2_oe, ram2_we: out std_logic;
 		ram2_addr: out std_logic_vector(17 downto 0);
@@ -45,12 +29,31 @@ entity TopLevel is
 		--vga_write_enable, 	vga_clock,	ps2_read_enable: 	out std_logic
 		vga_h_sync					: out  STD_LOGIC;  --horiztonal sync pulse
 		vga_v_sync       			: out  STD_LOGIC;  --vertical sync pulse
-		vga_red, vga_green, vga_blue : out STD_LOGIC_VECTOR(2 downto 0)
+		vga_red, vga_green, vga_blue : out STD_LOGIC_VECTOR(2 downto 0);
+		
+		flash_addr : out std_logic_vector(22 downto 0);
+		flash_data : inout std_logic_vector(15 downto 0);
+		flash_byte, flash_vpen : out std_logic;
+		flash_rp, flash_ce, flash_oe, flash_we : out std_logic
+
+		-- out for debug
+		--pc_now_out: out std_logic_vector(15 downto 0);
+		--inst_out: out std_logic_vector(15 downto 0);
+		--reg_a_out: out std_logic_vector(15 downto 0);
+		--reg_b_out: out std_logic_vector(15 downto 0);
+		--alu_result_ex_out: out std_logic_vector(15 downto 0);
+		--ex_mem_signal_out: out std_logic_vector(3 downto 0);
+		--mem_result_out: out std_logic_vector(15 downto 0);
+		
+		--ram2_en_out, ram2_oe_out, ram2_we_out: out std_logic;
+		--ram2_addr_out: out std_logic_vector(17 downto 0);
+		--ram2_data_out: inout std_logic_vector(15 downto 0);
 		
 	);
 end TopLevel;
 
 architecture Behavioral of TopLevel is
+	signal en, rst: std_logic;
 
 	component PC
 		port(
@@ -497,9 +500,6 @@ architecture Behavioral of TopLevel is
 	--		RAM_Data: inout std_logic_vector(15 downto 0)
 	--	);
 	--end component;
-	--signal ram2_en, ram2_oe, ram2_we: std_logic;
-	--signal ram2_addr: std_logic_vector(17 downto 0);
-	--signal ram2_data: std_logic_vector(15 downto 0);
 	
 	component vga_test
 		PORT(
@@ -546,12 +546,46 @@ architecture Behavioral of TopLevel is
 	end component;
 	signal clk0_out, clkfx_out, clkin_ibufg_out, locked_out: std_logic;
 	
+	component Bootstrap
+		port(
+			clk : in std_logic;
+			rst : in std_logic;
+			ram2_addr : out std_logic_vector(17 downto 0);
+			ram2_data : inout std_logic_vector(15 downto 0);
+			ram2_en, ram2_oe, ram2_we : out std_logic;
+			flash_finished : out std_logic := '0';
+			flash_addr : out std_logic_vector(22 downto 0);
+			flash_data : inout std_logic_vector(15 downto 0);
+			flash_byte : out std_logic := '1';
+			flash_vpen : out std_logic := '1';
+			flash_rp : out std_logic := '1';
+			flash_ce : out std_logic := '0';
+			flash_oe : out std_logic := '1';
+			flash_we : out std_logic := '1'
+	);
+	end component;
+	signal ram2_en_flash, ram2_en_cpu, ram2_oe_flash, ram2_oe_cpu, ram2_we_flash, ram2_we_cpu: std_logic;
+	signal ram2_addr_flash, ram2_addr_cpu: std_logic_vector(17 downto 0);
+	signal flash_finished: std_logic := '0';
 -- begin here
 	
 begin
 	clk <= clkfx_out;
-	--clk_vga <= clk_origin;
+	en <= cpu_en and flash_finished;
+	rst <= cpu_rst and (not flash_finished);
+	ram2_en <= ram2_en_flash when flash_finished = '0' else ram2_en_cpu;
+	ram2_oe <= ram2_oe_flash when flash_finished = '0' else ram2_oe_cpu;
+	ram2_we <= ram2_we_flash when flash_finished = '0' else ram2_we_cpu;
+	ram2_addr <= ram2_addr_flash when flash_finished = '0' else ram2_addr_cpu;
 	
+	u27: Bootstrap port map(
+		clk => clk,	rst => flash_rst,	ram2_addr => ram2_addr_flash,
+		ram2_data => ram2_data,	ram2_en => ram2_en_flash,	ram2_oe => ram2_oe_flash,
+		ram2_we => ram2_we_flash,	flash_finished => flash_finished,	flash_addr => flash_addr,
+		flash_data => flash_data,	flash_byte => flash_byte,	flash_vpen => flash_vpen,
+		flash_rp => flash_rp,		flash_ce => flash_ce,	flash_oe => flash_oe,
+		flash_we => flash_we
+	);
 	u26: clkGenerator port map(
 		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clkfx_out,
 		CLKIN_IBUFG_OUT => clkin_ibufg_out,	CLK0_OUT => clk0_out,	LOCKED_OUT => locked_out
@@ -605,8 +639,8 @@ begin
 		clk => clk,
 		input_pc => now_pc,	input_alu => alu_result_mem,	write_data => mem_wr_data,
 		mem_signal => mem_mem_signal,	read_result => im_data,
-		ram2_oe => ram2_oe,	ram2_we => ram2_we,	ram2_en => ram2_en,
-		ram2_addr => ram2_addr,	ram2_data => ram2_data
+		ram2_oe => ram2_oe_cpu,	ram2_we => ram2_we_cpu,	ram2_en => ram2_en_cpu,
+		ram2_addr => ram2_addr_cpu,	ram2_data => ram2_data
 	);
 	u6: IFIDRegister port map(
 		clk => clk,	rst => rst,	wr => wr_ifid,

@@ -23,7 +23,7 @@ entity EXMEMRegister is
            wr_sp_out : out std_logic;
            wr_ih_out : out std_logic;
            mem_to_reg_out : out std_logic;
-           mem_signal_out : out std_logic_vector (3 downto 0);
+           mem_signal_out : out std_logic_vector (3 downto 0) := NONE;
 
            result_out : out std_logic_vector (15 downto 0);
            data_out : out std_logic_vector (15 downto 0);
