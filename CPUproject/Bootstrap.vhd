@@ -149,7 +149,7 @@ begin
 						
 					end case;
 					
-					if (current_addr > x"0249") then --应改为实际指令条数
+					if (current_addr > x"CFFF") then --应改为实际指令条数
 						local_flash_finished <= '1';
 					end if;
 				else 
