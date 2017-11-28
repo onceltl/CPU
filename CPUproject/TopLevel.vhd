@@ -146,22 +146,22 @@ architecture Behavioral of TopLevel is
 			re_sp_ih: out std_logic; --选sp还是ih
 			immd: out std_logic_vector(15 downto 0); --扩展后的立即数立即数
 			b_dest: out std_logic_vector(15 downto 0); --符号扩展后的分支地址
-			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
+			jmp_dest: out std_logic_vector(1 downto 0); --跳转地址的控制信�
 			jmp: out std_logic; --跳转控制信号
 			b_op: out std_logic_vector(1 downto 0);   --branch控制指令
 			alu_op: out std_logic_vector(2 downto 0); --alu operator
 			alu_srca: out std_logic_vector(1 downto 0); --alu sourceA
 			alu_srcb: out std_logic_vector(1 downto 0); --alu sourceB
 			t_op: out std_logic; --t register operator (not equal or < 0)
-			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
+			datasrc: out std_logic; -- 写进内存的地址是从srca来还是b�
 			rd: out std_logic_vector(2 downto 0); --目的寄存器地址
 			write_reg: out std_logic; --是否写寄存器
-			write_mem: out std_logic; --是否写内�
-			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
+			write_mem: out std_logic; --是否写内�
+			mem_to_reg: out std_logic; --写回寄存器的是访存结果还是前一步结�
 			write_sp: out std_logic; --是否写sp
 			write_ih: out std_logic; --是否写ih
-			write_t: out std_logic; --是否写t寄存�
-			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
+			write_t: out std_logic; --是否写t寄存�
+			shift_imm: out std_logic_vector(15 downto 0); --移位立即�
 			reidx_a: out std_logic_vector(2 downto 0); --rx地址
 			reidx_b: out std_logic_vector(2 downto 0)  --ry地址
 		);
@@ -548,17 +548,17 @@ architecture Behavioral of TopLevel is
 	signal clk0_out, clkfx_out, clkin_ibufg_out, locked_out: std_logic;
 	signal ram_clk: std_logic;
 
-	component ClkGenerator2
-		port(
-			CLKIN_IN        : in    std_logic; 
-			RST_IN          : in    std_logic; 
-			CLKIN_IBUFG_OUT : out   std_logic; 
-			CLK0_OUT        : out   std_logic; 
-			CLK90_OUT       : out   std_logic; 
-			LOCKED_OUT      : out   std_logic
-		);
-	end component;
-	signal clk0_out_2, clk90_out_2, clkin_ibufg_out_2, locked_out_2: std_logic;
+	--component ClkGenerator2
+	--	port(
+	--		CLKIN_IN        : in    std_logic; 
+	--		RST_IN          : in    std_logic; 
+	--		CLKIN_IBUFG_OUT : out   std_logic; 
+	--		CLK0_OUT        : out   std_logic; 
+	--		CLK90_OUT       : out   std_logic; 
+	--		LOCKED_OUT      : out   std_logic
+	--	);
+	--end component;
+	--signal clk0_out_2, clk90_out_2, clkin_ibufg_out_2, locked_out_2: std_logic;
 	
 	component Bootstrap
 		port(
@@ -581,11 +581,21 @@ architecture Behavioral of TopLevel is
 	signal ram2_en_flash, ram2_en_cpu, ram2_oe_flash, ram2_oe_cpu, ram2_we_flash, ram2_we_cpu: std_logic;
 	signal ram2_addr_flash, ram2_addr_cpu: std_logic_vector(17 downto 0);
 	signal flash_finished: std_logic := '0';
+	
+	component ClkSpec
+	port(
+		rst : in std_logic;
+		clk : in std_logic;          
+		clk_spec : out std_logic;
+		clk_out : out std_logic
+		);
+	end component;
+	signal clk_spec, clk_out : std_logic;
 -- begin here
 	
 begin
-	clk <= clk0_out_2;
-	ram_clk <= clk0_out_2 and clk90_out_2;
+	clk <= clk_out;
+	ram_clk <= clk_spec;
 	en <= cpu_en and flash_finished;
 	rst <= cpu_rst and flash_finished;
 	ram2_en <= ram2_en_flash when flash_finished = '0' else ram2_en_cpu;
@@ -604,10 +614,16 @@ begin
 		flash_rp => flash_rp,		flash_ce => flash_ce,	flash_oe => flash_oe,
 		flash_we => flash_we
 	);
-	u27: clkGenerator2 port map(
-		CLKIN_IN => clkfx_out,	RST_IN => '0',	CLKIN_IBUFG_OUT => clkin_ibufg_out_2,
-		CLK0_OUT => clk0_out_2,	CLK90_OUT => clk90_out_2,	LOCKED_OUT => locked_out_2
+	u27: ClkSpec port map(
+		rst => '1',
+		clk => clkfx_out,
+		clk_spec => clk_spec,
+		clk_out => clk_out
 	);
+	--u27: clkGenerator2 port map(
+	--	CLKIN_IN => clkfx_out,	RST_IN => '0',	CLKIN_IBUFG_OUT => clkin_ibufg_out_2,
+	--	CLK0_OUT => clk0_out_2,	CLK90_OUT => clk90_out_2,	LOCKED_OUT => locked_out_2
+	--);
 	u26: clkGenerator port map(
 		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clkfx_out,
 		CLKIN_IBUFG_OUT => clkin_ibufg_out,	CLK0_OUT => clk0_out,	LOCKED_OUT => locked_out
