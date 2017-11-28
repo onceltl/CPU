@@ -573,7 +573,7 @@ architecture Behavioral of TopLevel is
 begin
 	clk <= clkfx_out;
 	en <= cpu_en and flash_finished;
-	rst <= cpu_rst and (not flash_finished);
+	rst <= cpu_rst and flash_finished;
 	ram2_en <= ram2_en_flash when flash_finished = '0' else ram2_en_cpu;
 	ram2_oe <= ram2_oe_flash when flash_finished = '0' else ram2_oe_cpu;
 	ram2_we <= ram2_we_flash when flash_finished = '0' else ram2_we_cpu;
