@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : xaw2vhdl
 --  /   /         Filename : ClkGenerator.vhd
--- /___/   /\     Timestamp : 11/28/2017 18:27:53
+-- /___/   /\     Timestamp : 11/28/2017 18:47:50
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -30,6 +30,7 @@ use UNISIM.Vcomponents.ALL;
 entity ClkGenerator is
    port ( CLKIN_IN        : in    std_logic; 
           RST_IN          : in    std_logic; 
+          CLKDV_OUT       : out   std_logic; 
           CLKFX_OUT       : out   std_logic; 
           CLKIN_IBUFG_OUT : out   std_logic; 
           CLK0_OUT        : out   std_logic; 
@@ -37,6 +38,7 @@ entity ClkGenerator is
 end ClkGenerator;
 
 architecture BEHAVIORAL of ClkGenerator is
+   signal CLKDV_BUF       : std_logic;
    signal CLKFB_IN        : std_logic;
    signal CLKFX_BUF       : std_logic;
    signal CLKIN_IBUFG     : std_logic;
@@ -46,6 +48,10 @@ begin
    GND_BIT <= '0';
    CLKIN_IBUFG_OUT <= CLKIN_IBUFG;
    CLK0_OUT <= CLKFB_IN;
+   CLKDV_BUFG_INST : BUFG
+      port map (I=>CLKDV_BUF,
+                O=>CLKDV_OUT);
+   
    CLKFX_BUFG_INST : BUFG
       port map (I=>CLKFX_BUF,
                 O=>CLKFX_OUT);
@@ -60,7 +66,7 @@ begin
    
    DCM_SP_INST : DCM_SP
    generic map( CLK_FEEDBACK => "1X",
-            CLKDV_DIVIDE => 2.0,
+            CLKDV_DIVIDE => 10.0,
             CLKFX_DIVIDE => 5,
             CLKFX_MULTIPLY => 2,
             CLKIN_DIVIDE_BY_2 => FALSE,
@@ -80,7 +86,7 @@ begin
                 PSEN=>GND_BIT,
                 PSINCDEC=>GND_BIT,
                 RST=>RST_IN,
-                CLKDV=>open,
+                CLKDV=>CLKDV_BUF,
                 CLKFX=>CLKFX_BUF,
                 CLKFX180=>open,
                 CLK0=>CLK0_BUF,
