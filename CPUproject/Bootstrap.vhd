@@ -84,6 +84,7 @@ begin
 			ram2_oe <= '1';
 			ram2_we <= '1';
 			ram2_addr <= (others => '0'); --可不要？？
+			ram2_data <= HIGHZ16;
 			flashstate <= "001";
 			local_flash_finished <= '0';
 			--flash_finished <= '0';
@@ -95,9 +96,10 @@ begin
 				flash_vpen <= '1';
 				flash_rp <= '1';
 				flash_ce <= '1';	--禁止flash
+				ram2_data <= HIGHZ16;
 				
 			else				--从flash载入kernel指令到ram2尚未完成，则继续载入
-				if (cnt = 1000) then --降低输入时钟频率以适应flash读写
+				if (cnt = 10) then --降低输入时钟频率以适应flash读写
 					cnt := 0;
 					
 					case flashstate is
