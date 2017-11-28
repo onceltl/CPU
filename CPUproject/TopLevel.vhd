@@ -11,6 +11,7 @@ entity TopLevel is
 		cpu_en : in std_logic;
 		vga_rst: in std_logic;
 		flash_rst: in std_logic;
+		flash_finished_led: out std_logic;
 		
 		ram2_en, ram2_oe, ram2_we: out std_logic;
 		ram2_addr: out std_logic_vector(17 downto 0);
@@ -577,6 +578,7 @@ begin
 	ram2_oe <= ram2_oe_flash when flash_finished = '0' else ram2_oe_cpu;
 	ram2_we <= ram2_we_flash when flash_finished = '0' else ram2_we_cpu;
 	ram2_addr <= ram2_addr_flash when flash_finished = '0' else ram2_addr_cpu;
+	flash_finished_led <= flash_finished;
 	
 	u27: Bootstrap port map(
 		clk => clk,	rst => flash_rst,	ram2_addr => ram2_addr_flash,
