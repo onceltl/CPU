@@ -7,11 +7,11 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : xaw2vhdl
 --  /   /         Filename : ClkGenerator.vhd
--- /___/   /\     Timestamp : 11/28/2017 14:13:24
+-- /___/   /\     Timestamp : 11/28/2017 14:47:48
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: xaw2vhdl-intstyle D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/ipcore_dir/ClkGenerator.xaw -st ClkGenerator.vhd
+--Command: xaw2vhdl-intstyle C:/Users/Shine/Desktop/Git/CPU/CPUproject/ipcore_dir/ClkGenerator.xaw -st ClkGenerator.vhd
 --Design Name: ClkGenerator
 --Device: xc3s1200e-4fg320
 --
