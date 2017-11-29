@@ -49,6 +49,10 @@ begin
 				mem_signal <= SERIAL_DATA_READ;
 			elsif(res = x"BF01")then
 				mem_signal <= SERIAL_STATE_READ;
+			elsif(res = x"BF02")then
+				mem_signal <= PS2_READ;
+			elsif(res = x"BF03")then
+				mem_signal <= VGA_PS2_STATE_READ;
 			end if;
 			
 			if res >= x"8000" then
