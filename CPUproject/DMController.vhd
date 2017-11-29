@@ -79,7 +79,8 @@ begin
 				--ram1_we <= '1';
 				local_we <= '1';
 				--ram1_data(15 downto 8) <= ZERO8;
-				serial_rdn <= not clk;
+				--serial_rdn <= not clk;
+				serial_rdn <= clk;
 			when SERIAL_DATA_WRITE =>
 				ram1_en <= '1';
 				ram1_oe <= '1';
