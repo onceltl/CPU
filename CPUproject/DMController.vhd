@@ -93,7 +93,8 @@ begin
 				vga_write_enable <= WRITE_ENABLE;
 				vga_clk <= not clk;
 			when PS2_READ =>
-			   -- need to be finished
+			   ps2_read_enable <= READ_ENABLE;
+				ram1_data <= "00000000" & ps2_read_data;
 			when others =>
 				null;
 		end case;
@@ -101,12 +102,12 @@ begin
 
 	process(clk, ram1_data, mem_signal, serial_tbre, serial_tsre, serial_data_ready, read_write_addr) --get result
 	begin
-		if mem_signal = DM_READ or mem_signal = SERIAL_DATA_READ then
+		if mem_signal = DM_READ or mem_signal = SERIAL_DATA_READ or mem_signal = PS2_READ then
 			read_result <= ram1_data;
 		elsif mem_signal = SERIAL_STATE_READ then
 			read_result <= ZERO14 & serial_data_ready & (serial_tbre AND serial_tsre);
 		elsif mem_signal = VGA_PS2_STATE_READ then
-			read_result <= ZERO14 & ps2_data_ready & "1";
+			read_result <= ZERO14 & ps2_data_ready & "1"; --"VGAÄ¬ÈÏÐ´³É¹¦¡°
 		else
 			read_result <= NOP_INSTRUCT;
 		end if;
