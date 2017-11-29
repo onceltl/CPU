@@ -91,7 +91,7 @@ begin
 			when VGA_WRITE =>
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;
-				vga_clk <= not clk;
+				vga_clk <= clk;
 			when PS2_READ =>
 			   ps2_read_enable <= READ_ENABLE;
 				ram1_data <= "00000000" & ps2_read_data;
