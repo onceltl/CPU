@@ -10,6 +10,7 @@ entity TopLevel is
 		cpu_rst : in std_logic;
 		cpu_en : in std_logic;
 		vga_rst: in std_logic;
+		ps2_rst: in std_logic;
 		flash_rst: in std_logic;
 		flash_finished_led, en_led, rst_led: out std_logic;
 		
@@ -23,14 +24,11 @@ entity TopLevel is
 
 		serial_tbre,	serial_tsre, 	serial_data_ready: 	in std_logic;
 		serial_rdn, 	serial_wrn: 						out std_logic;
-		ps2_data_ready:									 	in std_logic;
-		ps2_read_enable:									out std_logic;
-		ps2_read_data: 										in std_logic_vector(7 downto 0);
-		--vga_write_data:										out std_logic_vector(7 downto 0);
-		--vga_write_enable, 	vga_clock,	ps2_read_enable: 	out std_logic
 		vga_h_sync					: out  STD_LOGIC;  --horiztonal sync pulse
 		vga_v_sync       			: out  STD_LOGIC;  --vertical sync pulse
 		vga_red, vga_green, vga_blue : out STD_LOGIC_VECTOR(2 downto 0);
+		ps2_clk    	: IN  STD_LOGIC;
+		ps2_data   	: IN  STD_LOGIC;
 		
 		flash_addr : out std_logic_vector(22 downto 0);
 		flash_data : inout std_logic_vector(15 downto 0);
@@ -593,7 +591,9 @@ architecture Behavioral of TopLevel is
 			read_ascii_code: out std_logic_vector(7 downto 0)
 		);
 	end component;
-		
+	signal ps2_read_enable: std_logic;
+	signal ps2_read_data: std_logic_vector(7 downto 0);
+	signal ps2_data_ready: std_logic;
 -- begin here
 	
 begin
@@ -610,7 +610,9 @@ begin
 	rst_led <= rst;
 	
 	u29: ps2_keyboard_to_ascii port map(
-		
+		rst => ps2_rst,		read_en => ps2_read_enable,	clk => clk0_out,
+		ps2_clk => ps2_clk,	ps2_data => ps2_data,	--ascii_new => , ascii_code => ,
+		can_read => ps2_data_ready,	read_ascii_code => ps2_read_data
 	);
 	u28: Bootstrap port map(
 		clk => clk,	rst => flash_rst,	ram2_addr => ram2_addr_flash,
@@ -626,10 +628,6 @@ begin
 		clk_spec => clk_spec,
 		clk_out => clk_out
 	);
-	--u27: clkGenerator2 port map(
-	--	CLKIN_IN => clkfx_out,	RST_IN => '0',	CLKIN_IBUFG_OUT => clkin_ibufg_out_2,
-	--	CLK0_OUT => clk0_out_2,	CLK90_OUT => clk90_out_2,	LOCKED_OUT => locked_out_2
-	--);
 	u26: clkGenerator port map(
 		CLKIN_IN => clk_origin,	RST_IN => '0',	CLKFX_OUT => clkfx_out,
 		CLKIN_IBUFG_OUT => clkin_ibufg_out,	CLK0_OUT => clk0_out,	LOCKED_OUT => locked_out
