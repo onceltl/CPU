@@ -105,8 +105,8 @@ begin
 			read_result <= ram1_data;
 		elsif mem_signal = SERIAL_STATE_READ then
 			read_result <= ZERO14 & serial_data_ready & (serial_tbre AND serial_tsre);
-		--elsif mem_signal = VGA_PS2_STATE_READ then
-			--read_result <= ZERO14 & ps2_data_ready & (vga_tbre AND vga_tsre);
+		elsif mem_signal = VGA_PS2_STATE_READ then
+			read_result <= ZERO14 & ps2_data_ready & "1";
 		else
 			read_result <= NOP_INSTRUCT;
 		end if;
