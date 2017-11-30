@@ -85,7 +85,7 @@ begin
 	-- write t
 	process(clk)
 	begin
-		if(rising_edge(clk))then
+		if(rising_edge(clk) and (wr_t = '1'))then
 			t_reg <= t_result;
 		end if;
 	end process;
