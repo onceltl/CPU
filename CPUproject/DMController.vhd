@@ -8,6 +8,7 @@ entity DMController is
 port (
 
 	clk: in std_logic;
+	cpu_clk: in std_logic;
 	-- data: input
 	read_write_addr: in std_logic_vector(15 downto 0);
 	write_data: in std_logic_vector(15 downto 0);
@@ -42,7 +43,7 @@ architecture arch of DMController is
 signal local_we : std_logic := '1';
 begin
 	ram1_we <= local_we or clk;
-	vga_clk <= clk;
+	vga_clk <= not cpu_clk;
 	process(read_write_addr, write_data, mem_signal, clk, ps2_read_data)
 	begin
 		-- default: all disabled
@@ -95,16 +96,18 @@ begin
 				vga_write_enable <= WRITE_ENABLE;
 			when PS2_READ =>
 			   ps2_read_enable <= READ_ENABLE;
-				ram1_data <= "00000000" & ps2_read_data;
+				--ram1_data <= "00000000" & ps2_read_data;
 			when others =>
 				null;
 		end case;
 	end process;
 
-	process(clk, ram1_data, mem_signal, serial_tbre, serial_tsre, serial_data_ready, read_write_addr) --get result
+	process(clk, ram1_data, mem_signal, serial_tbre, serial_tsre, serial_data_ready, read_write_addr, ps2_read_data) --get result
 	begin
 		if mem_signal = DM_READ or mem_signal = SERIAL_DATA_READ or mem_signal = PS2_READ then
 			read_result <= ram1_data;
+		elsif mem_signal = PS2_READ then
+			read_result <= "00000000" & ps2_read_data;
 		elsif mem_signal = SERIAL_STATE_READ then
 			read_result <= ZERO14 & serial_data_ready & (serial_tbre AND serial_tsre);
 		elsif mem_signal = VGA_PS2_STATE_READ then
