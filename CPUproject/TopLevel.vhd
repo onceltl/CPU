@@ -391,6 +391,7 @@ architecture Behavioral of TopLevel is
 	component DMController
 		port(
 			clk: in std_logic;
+			cpu_clk: in std_logic;
 			read_write_addr: in std_logic_vector(15 downto 0);
 			write_data: in std_logic_vector(15 downto 0);
 			mem_signal: in std_logic_vector(3 downto 0); 
@@ -760,7 +761,7 @@ begin
 		result_out => alu_result_mem,	data_out => mem_wr_data,	rd_out => mem_rd
 	);
 	u17: DMController port map(
-		clk => ram_clk,		read_write_addr => alu_result_mem,	write_data => mem_wr_data,
+		clk => ram_clk,	cpu_clk => clk,	read_write_addr => alu_result_mem,	write_data => mem_wr_data,
 		mem_signal => mem_mem_signal,	read_result => dm_data,	serial_tbre => serial_tbre,
 		serial_tsre => serial_tsre,	serial_data_ready => serial_data_ready,
 		serial_rdn => serial_rdn,	serial_wrn => serial_wrn,
