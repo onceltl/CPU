@@ -29,11 +29,9 @@ begin
 				mem_signal <= IM_WRITE;
 			elsif( (res >= x"8000") and ((res <= x"BEFF") or (res >= x"BF10")) )then
 				mem_signal <= DM_WRITE;
-			--elsif(res = x"BF00")then
-			--	mem_signal <= SERIAL_DATA_WRITE;
-			--elsif(res = x"BF02") then
-			--	mem_signal <= VGA_WRITE;
-			elsif(res = x"BF00") then
+			elsif(res = x"BF00")then
+				mem_signal <= SERIAL_DATA_WRITE;
+			elsif(res = x"BF06") then
 				mem_signal <= VGA_WRITE;
 			end if;
 			
@@ -47,17 +45,13 @@ begin
 				mem_signal <= IM_READ;
 			elsif( (res >= x"8000") and ((res <= x"BEFF") or (res >= x"BF10")) )then
 				mem_signal <= DM_READ;
-			--elsif(res = x"BF00")then
-			--	mem_signal <= SERIAL_DATA_READ;
-			--elsif(res = x"BF01")then
-			--	mem_signal <= SERIAL_STATE_READ;
-			--elsif(res = x"BF02")then
-			--	mem_signal <= PS2_READ;
-			--elsif(res = x"BF03")then
-			--	mem_signal <= VGA_PS2_STATE_READ;
 			elsif(res = x"BF00")then
-				mem_signal <= PS2_READ;
+				mem_signal <= SERIAL_DATA_READ;
 			elsif(res = x"BF01")then
+				mem_signal <= SERIAL_STATE_READ;
+			elsif(res = x"BF04")then
+				mem_signal <= PS2_READ;
+			elsif(res = x"BF05")then
 				mem_signal <= VGA_PS2_STATE_READ;
 			end if;
 			
