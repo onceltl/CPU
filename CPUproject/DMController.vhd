@@ -42,6 +42,7 @@ architecture arch of DMController is
 signal local_we : std_logic := '1';
 begin
 	ram1_we <= local_we or clk;
+	vga_clk <= clk;
 	process(read_write_addr, write_data, mem_signal, clk, ps2_read_data)
 	begin
 		-- default: all disabled
@@ -91,7 +92,6 @@ begin
 			when VGA_WRITE =>
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;
-				vga_clk <= clk;
 			when PS2_READ =>
 			   ps2_read_enable <= READ_ENABLE;
 				ram1_data <= "00000000" & ps2_read_data;

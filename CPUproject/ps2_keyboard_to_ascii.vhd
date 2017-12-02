@@ -78,7 +78,6 @@ BEGIN
     PORT MAP(clk => clk, ps2_clk => ps2_clk, ps2_data => ps2_data, ps2_code_new => ps2_code_new, ps2_code => ps2_code);
 
 	
-
 	PROCESS(clk, rst, read_en, can_read_v, last)
 	BEGIN
 	if (rst = '0') then
@@ -323,6 +322,8 @@ BEGIN
         WHEN output =>
           IF(ascii(7) = '0') THEN            --the PS2 code has an ASCII output
             ascii_new <= '1';                  --set flag indicating new ASCII output
+				last <= ascii;
+				ascii_code <= ascii;
 				      --WHEN x"45" => ascii <= x"30"; --0
                   --WHEN x"16" => ascii <= x"31"; --1
                   --WHEN x"1E" => ascii <= x"32"; --2
@@ -340,65 +341,67 @@ BEGIN
                   --WHEN x"23" => ascii <= x"64"; --d
                   --WHEN x"24" => ascii <= x"65"; --e
                   --WHEN x"2B" => ascii <= x"66"; --f
-						case (ascii) is
-						when x"30" =>
-							ascii_code <= x"80";
-							last <= x"80";
-						when x"31" =>
-							ascii_code <= x"81";
-							last <= x"81";
-						when x"32" =>
-							ascii_code <= x"82";
-							last <= x"82";
-						when x"33" =>
-							ascii_code <= x"83";
-							last <= x"83";
-						when x"34" =>
-							ascii_code <= x"84";
-							last <= x"84";
-						when x"35" =>
-							ascii_code <= x"85";
-							last <= x"85";
-						when x"36" =>
-							ascii_code <= x"86";
-							last <= x"86";
-						when x"37" =>
-							ascii_code <= x"87";
-							last <= x"87";
-						when x"38" =>
-							ascii_code <= x"88";
-							last <= x"88";
-						when x"39" =>
-							ascii_code <= x"89";
-							last <= x"89";
-						when x"61" =>
-							ascii_code <= x"8a";
-							last <= x"8a";
-						when x"62" =>
-							ascii_code <= x"8b";
-							last <= x"8b";
-						when x"63" =>
-							ascii_code <= x"8c";
-							last <= x"8c";
-						when x"64" =>
-							ascii_code <= x"8d";
-							last <= x"8d";
-						when x"65" =>
-							ascii_code <= x"8e";
-							last <= x"8e";
-						when x"66" =>
-							ascii_code <= x"8f";
-							last <= x"8f";
-						when others=>
-							ascii_code <= ascii;
-							last <= ascii;
-						end case;
+--						case (ascii) is
+--						when x"30" =>
+--							ascii_code <= x"80";
+--							last <= x"80";
+--						when x"31" =>
+--							ascii_code <= x"81";
+--							last <= x"81";
+--						when x"32" =>
+--							ascii_code <= x"82";
+--							last <= x"82";
+--						when x"33" =>
+--							ascii_code <= x"83";
+--							last <= x"83";
+--						when x"34" =>
+--							ascii_code <= x"84";
+--							last <= x"84";
+--						when x"35" =>
+--							ascii_code <= x"85";
+--							last <= x"85";
+--						when x"36" =>
+--							ascii_code <= x"86";
+--							last <= x"86";
+--						when x"37" =>
+--							ascii_code <= x"87";
+--							last <= x"87";
+--						when x"38" =>
+--							ascii_code <= x"88";
+--							last <= x"88";
+--						when x"39" =>
+--							ascii_code <= x"89";
+--							last <= x"89";
+--						when x"61" =>
+--							ascii_code <= x"8a";
+--							last <= x"8a";
+--						when x"62" =>
+--							ascii_code <= x"8b";
+--							last <= x"8b";
+--						when x"63" =>
+--							ascii_code <= x"8c";
+--							last <= x"8c";
+--						when x"64" =>
+--							ascii_code <= x"8d";
+--							last <= x"8d";
+--						when x"65" =>
+--							ascii_code <= x"8e";
+--							last <= x"8e";
+--						when x"66" =>
+--							ascii_code <= x"8f";
+--							last <= x"8f";
+--						when others=>
+--							ascii_code <= ascii;
+--							last <= ascii;
+--						end case;
+				
 				can_read_v <= '1';
           END IF;
           state <= ready;                    --return to ready state to await next PS2 code
 
       END CASE;
-    END IF;can_read <= can_read_v;
+    END IF;
+	 can_read <= can_read_v;
   END PROCESS;
 
 END behavior;

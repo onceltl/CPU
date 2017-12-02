@@ -153,8 +153,13 @@ NET "cpu_en" LOC = J6;
 NET "cpu_rst" LOC = U10;
 NET "flash_rst" LOC = R1;
 
-# PlanAhead Generated physical constraints 
 
 NET "en_led" LOC = D10;
 NET "flash_finished_led" LOC = E10;
 NET "rst_led" LOC = A11;
+
+# PlanAhead Generated physical constraints 
+
+NET "ps2_clk" LOC = U6;
+NET "ps2_data" LOC = V6;
+NET "ps2_rst" LOC = R7;
