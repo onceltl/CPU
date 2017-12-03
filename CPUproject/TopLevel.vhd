@@ -392,6 +392,7 @@ architecture Behavioral of TopLevel is
 		port(
 			clk: in std_logic;
 			cpu_clk: in std_logic;
+			serial_clk: in std_logic;
 			read_write_addr: in std_logic_vector(15 downto 0);
 			write_data: in std_logic_vector(15 downto 0);
 			mem_signal: in std_logic_vector(3 downto 0); 
@@ -545,17 +546,18 @@ architecture Behavioral of TopLevel is
 		);
 	end component;
 	signal clk0_out, clkfx_out, clkin_ibufg_out, locked_out: std_logic;
-	signal ram_clk: std_logic;
+	signal ram_clk, serial_clk: std_logic;
 
 	component ClkSpec
 	port(
 		rst : in std_logic;
 		clk : in std_logic;          
 		clk_spec : out std_logic;
+		clk_spec2 : out std_logic;
 		clk_out : out std_logic
 		);
 	end component;
-	signal clk_spec, clk_out : std_logic;
+	signal clk_spec, clk_spec2, clk_out : std_logic;
 
 	component Bootstrap
 		port(
@@ -600,6 +602,7 @@ architecture Behavioral of TopLevel is
 begin
 	clk <= clk_out;
 	ram_clk <= clk_spec;
+	serial_clk <= clk_spec2;
 	en <= cpu_en and flash_finished;
 	rst <= cpu_rst and flash_finished;
 	ram2_en <= ram2_en_flash when flash_finished = '0' else ram2_en_cpu;
@@ -627,6 +630,7 @@ begin
 		rst => '1',
 		clk => clkfx_out,
 		clk_spec => clk_spec,
+		clk_spec2 => clk_spec2,
 		clk_out => clk_out
 	);
 	u26: clkGenerator port map(
@@ -761,7 +765,8 @@ begin
 		result_out => alu_result_mem,	data_out => mem_wr_data,	rd_out => mem_rd
 	);
 	u17: DMController port map(
-		clk => ram_clk,	cpu_clk => clk,	read_write_addr => alu_result_mem,	write_data => mem_wr_data,
+		clk => ram_clk,	cpu_clk => clk,	serial_clk => serial_clk,
+		read_write_addr => alu_result_mem,	write_data => mem_wr_data,
 		mem_signal => mem_mem_signal,	read_result => dm_data,	serial_tbre => serial_tbre,
 		serial_tsre => serial_tsre,	serial_data_ready => serial_data_ready,
 		serial_rdn => serial_rdn,	serial_wrn => serial_wrn,

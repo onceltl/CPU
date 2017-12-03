@@ -9,6 +9,7 @@ port (
 
 	clk: in std_logic;
 	cpu_clk: in std_logic;
+	serial_clk: in std_logic;
 	-- data: input
 	read_write_addr: in std_logic_vector(15 downto 0);
 	write_data: in std_logic_vector(15 downto 0);

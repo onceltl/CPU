@@ -38,7 +38,8 @@ entity ClkSpec is
 			clk : in  std_logic;
 		   
 			clk_spec : out std_logic;
-         clk_out : out std_logic
+			clk_spec2 : out std_logic;
+			clk_out : out std_logic
 			 );
 end ClkSpec;
 
