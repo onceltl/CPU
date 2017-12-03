@@ -37,8 +37,8 @@ entity ClkSpec is
 			rst : in std_logic;
 			clk : in  std_logic;
 		   
-			clk_spec : out std_logic;
-			clk_spec2 : out std_logic;
+			clk_spec : out std_logic;-- clk for ram read and write
+			clk_spec2 : out std_logic;-- clk for serial write
 			clk_out : out std_logic
 			 );
 end ClkSpec;
@@ -49,37 +49,45 @@ begin
 	process (clk, rst, count)
 	begin
 		if (rst = '0') then
-			clk_spec <= '0';
-			clk_out <= '0';
+			clk_spec <= '1';
+			clk_spec2 <= '1';
+			clk_out <= '1';
 			count <= "000";
 		elsif (clk'event and clk='1') then			
 			case count is
 				when "000" =>
 					clk_spec <= '1';
+					clk_spec2 <= '0';
 					clk_out <= '1';
 					count <= "001";
 				when "001" =>
 					clk_spec <= '0';
+					clk_spec2 <= '1';
 					clk_out <= '1';
 					count <= "010";
 				when "010" =>
 					clk_spec <= '0';
-					clk_out <= '1';
+					clk_spec2 <= '1';
+					clk_out <= '0';
 					count <= "011";
 				when "011" =>
 					clk_spec <= '0';
+					clk_spec2 <= '1';
 					clk_out <= '0';
 					count <= "100";
 				when "100" =>
 					clk_spec <= '0';
-					clk_out <= '0';
-					count <= "101";
-				when "101" =>
-					clk_spec <= '1';
+					clk_spec2 <= '0';
 					clk_out <= '0';
 					count <= "000";
+				--when "101" =>
+				--	clk_spec <= '1';
+				--	clk_spec2 <= '0';
+				--	clk_out <= '0';
+				--	count <= "000";
 				when others =>
 					clk_spec <= '0';
+					clk_spec2 <= '0';
 					clk_out <= '0';
 					count <= "000";
 			end case;

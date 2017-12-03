@@ -91,7 +91,7 @@ begin
 				--ram1_we <= '0';
 				local_we <= '0';
 				ram1_data(7 downto 0) <= write_data(7 downto 0);
-				serial_wrn <= not clk;
+				serial_wrn <= serial_clk;--'1'保持时间较长
 			when VGA_WRITE =>
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;
