@@ -30,8 +30,8 @@ begin
 			elsif( (res >= x"8000") and ((res <= x"BEFF") or (res >= x"BF10")) )then
 				mem_signal <= DM_WRITE;
 			elsif(res = x"BF00")then
-				--mem_signal <= SERIAL_DATA_WRITE;
-				mem_signal <= VGA_WRITE;
+				mem_signal <= SERIAL_DATA_WRITE;
+				--mem_signal <= VGA_WRITE;
 			elsif(res = x"BF06") then
 				mem_signal <= VGA_WRITE;
 			end if;
