@@ -32,7 +32,7 @@ begin
 				ram2_data <= write_data;
 				ram2_addr <= "00" & input_alu;
 				ram2_oe <= '1';
-				ram2_we <= '0' or clk;
+				ram2_we <= clk;
 				--local_we <= '0';
 			when IM_READ =>
 				ram2_data <= "ZZZZZZZZZZZZZZZZ";

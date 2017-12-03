@@ -74,7 +74,7 @@ begin
 				ram1_data <= write_data;
 				ram1_en <= '0';
 				ram1_oe <= '1';
-				ram1_we <= '0' or clk;
+				ram1_we <= clk;
 				--local_we <= '0';
 			when SERIAL_DATA_READ =>
 				ram1_en <= '1';
