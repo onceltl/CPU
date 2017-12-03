@@ -84,14 +84,14 @@ begin
 				--ram1_data(15 downto 8) <= ZERO8;
 				--serial_rdn <= not clk;
 				--serial_rdn <= clk;
-				serial_rdn <= '0';
+				serial_rdn <= not serial_clk;
 			when SERIAL_DATA_WRITE =>
 				ram1_en <= '1';
 				ram1_oe <= '1';
 				ram1_we <= '0';
 				--local_we <= '0';
 				ram1_data(7 downto 0) <= write_data(7 downto 0);
-				serial_wrn <= not serial_clk;--'1'保持时间较长
+				serial_wrn <= serial_clk;--'1'保持时间较长
 			when VGA_WRITE =>
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;
