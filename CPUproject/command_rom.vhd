@@ -21,12 +21,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.all;
 --addr 32&128
-
 entity command_rom is
 	  port(
       clk_write         : in std_logic;
       com_write_addr    : in std_logic_vector(11 downto 0);
-      com_write_nable   : in std_logic;
+		com_write_nable   : in std_logic;
       char_write_value  : in std_logic_vector(7 downto 0);
 		com_read_addr     : in std_logic_vector(11 downto 0);
       char_read_value   : out std_logic_vector(7 downto 0)
@@ -53,7 +52,7 @@ architecture arch of command_rom is
      X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",
      X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",
      X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",
-     X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",
+     X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"7E",X"20",
      -- Line 1
      X"7B",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",
      X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"57",X"65",X"6C",X"63",X"6F",X"6D",X"65",X"20",
@@ -335,15 +334,13 @@ architecture arch of command_rom is
      X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20"
      );
 begin
-
   char_read_value <= com_ram(to_integer(unsigned(com_read_addr)));
-
   process(clk_write)
   begin
      if (clk_write'event and clk_write='1') then
-      if (com_write_nable = '1') then
+	   if (com_write_nable = '1') then
         com_ram(to_integer(unsigned(com_write_addr))) <= char_write_value;
-      end if;
+		end if;
     end if;
  
   end process;

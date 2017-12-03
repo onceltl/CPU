@@ -38,7 +38,9 @@ entity vga_test is
 	 write_char   :  IN STD_LOGIC_VECTOR(7 downto 0);
 	 h_sync       :  OUT  STD_LOGIC;  --horiztonal sync pulse
     v_sync       :  OUT  STD_LOGIC;  --vertical sync pulse
-    red, green, blue : out STD_LOGIC_VECTOR(2 downto 0)
+    Led_write_enable   :  OUT  STD_LOGIC;
+	 Led_write_char: OUT STD_LOGIC_VECTOR(7 downto 0);
+	 red, green, blue : out STD_LOGIC_VECTOR(2 downto 0)
 	); 
 end vga_test;
 
@@ -97,6 +99,8 @@ architecture behave of vga_test is
   SIGNAL n_sync : STD_LOGIC; 
 begin
 
+	 Led_write_enable <= write_enable;
+	 Led_write_char <= write_char;
 	 ufredivider:
     fredivider_vga port map(
       clkin=>clk,clkout=>pix_clk
