@@ -1,0 +1,23 @@
+TOCONNECT:
+	;init sp
+	LI R0 0xBF20
+	MTSP R0
+CONNECTLOOP:
+	MFPC R7
+	ADDIU R7 0x0003	
+	NOP
+	B TESTRSER
+	NOP
+
+	LI R0 0x00BF
+	SLL R0 R0 0x0000
+	;read serial into r1
+	LW R0 R1 0x0000
+	
+	;if recv "10000000" then begin communication
+	LI R2 0x0080
+	CMP R1 R2
+	BTEQZ COMMUNICATION
+	NOP
+	B CONNECTLOOP
+	NOP
