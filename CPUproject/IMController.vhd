@@ -25,7 +25,7 @@ begin
 	
 	ram2_en <= '0';
 	--ram2_we <= local_we or clk;
-	process(input_pc, input_alu, write_data, mem_signal)
+	process(input_pc, input_alu, write_data, mem_signal, clk)
 	begin
 		case (mem_signal) is
 			when IM_WRITE =>

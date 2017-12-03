@@ -45,7 +45,7 @@ architecture arch of DMController is
 begin
 	--ram1_we <= local_we or clk;
 	vga_clk <= not cpu_clk;
-	process(read_write_addr, write_data, mem_signal, clk, ps2_read_data)
+	process(read_write_addr, write_data, mem_signal, clk, ps2_read_data, cpu_clk, serial_clk)
 	begin
 		-- default: all disabled
 		ram1_oe <= '1';
@@ -91,7 +91,7 @@ begin
 				ram1_we <= '0';
 				--local_we <= '0';
 				ram1_data(7 downto 0) <= write_data(7 downto 0);
-				serial_wrn <= cpu_clk;--'1'保持时间较长
+				serial_wrn <= serial_clk;--'1'保持时间较长
 			when VGA_WRITE =>
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;
