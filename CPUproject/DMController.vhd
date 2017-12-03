@@ -41,16 +41,16 @@ port (
 end entity ; -- DMController
 
 architecture arch of DMController is
-signal local_we : std_logic := '1';
+--signal local_we : std_logic := '1';
 begin
-	ram1_we <= local_we or clk;
+	--ram1_we <= local_we or clk;
 	vga_clk <= not cpu_clk;
 	process(read_write_addr, write_data, mem_signal, clk, ps2_read_data)
 	begin
 		-- default: all disabled
 		ram1_oe <= '1';
 		--ram1_we <= '1';
-		local_we <= '1';
+		ram1_we <= '1';
 		ram1_en <= '1';
 		serial_rdn <= '1';
 		serial_wrn <= '1';
@@ -68,19 +68,19 @@ begin
 				ram1_data <= HIGHZ16;
 				ram1_en <= '0';
 				ram1_oe <= '0';
-				--ram1_we <= '1';
-				local_we <= '1';
+				ram1_we <= '1';
+				--local_we <= '1';
 			when DM_WRITE =>
 				ram1_data <= write_data;
 				ram1_en <= '0';
 				ram1_oe <= '1';
-				--ram1_we <= '0';
-				local_we <= '0';
+				ram1_we <= '0' or clk;
+				--local_we <= '0';
 			when SERIAL_DATA_READ =>
 				ram1_en <= '1';
 				ram1_oe <= '1';
-				--ram1_we <= '1';
-				local_we <= '1';
+				ram1_we <= '1';
+				--local_we <= '1';
 				--ram1_data(15 downto 8) <= ZERO8;
 				--serial_rdn <= not clk;
 				--serial_rdn <= clk;
@@ -88,10 +88,10 @@ begin
 			when SERIAL_DATA_WRITE =>
 				ram1_en <= '1';
 				ram1_oe <= '1';
-				--ram1_we <= '0';
-				local_we <= '0';
+				ram1_we <= '0';
+				--local_we <= '0';
 				ram1_data(7 downto 0) <= write_data(7 downto 0);
-				serial_wrn <= serial_clk;--'1'保持时间较长
+				serial_wrn <= cpu_clk;--'1'保持时间较长
 			when VGA_WRITE =>
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;
