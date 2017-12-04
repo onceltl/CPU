@@ -95,7 +95,7 @@ TESTRECV:
 	MFPC R7
 	ADDIU R7 0x0003
 	NOP
-	B CLEARLINE
+	B CLEARLINE	;先clearline再判断是否为退出？
 	NOP
 TESTRECV_LOOP: ;我不知道汇编器是否支持下划线
 	LI R6 0x00BF 
