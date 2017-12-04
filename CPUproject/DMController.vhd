@@ -49,8 +49,8 @@ begin
 	begin
 		-- default: all disabled
 		ram1_oe <= '1';
-		--ram1_we <= '1';
 		ram1_we <= '1';
+		--local_we <= '1';
 		ram1_en <= '1';
 		serial_rdn <= '1';
 		serial_wrn <= '1';
@@ -92,6 +92,8 @@ begin
 				--local_we <= '0';
 				ram1_data(7 downto 0) <= write_data(7 downto 0);
 				serial_wrn <= serial_clk;--'1'保持时间较长
+				--serial_wrn <= not clk;
+				
 			when VGA_WRITE =>
 				vga_write_data <= write_data(7 downto 0);
 				vga_write_enable <= WRITE_ENABLE;

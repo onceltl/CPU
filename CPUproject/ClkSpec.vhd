@@ -57,7 +57,7 @@ begin
 			case count is
 				when "000" =>
 					clk_spec <= '1';
-					clk_spec2 <= '1';
+					clk_spec2 <= '0';
 					clk_out <= '1';
 					count <= "001";
 				when "001" =>
@@ -68,7 +68,7 @@ begin
 				when "010" =>
 					clk_spec <= '0';
 					clk_spec2 <= '1';
-					clk_out <= '0';
+					clk_out <= '1';
 					count <= "011";
 				when "011" =>
 					clk_spec <= '0';
@@ -77,14 +77,14 @@ begin
 					count <= "100";
 				when "100" =>
 					clk_spec <= '0';
+					clk_spec2 <= '1';
+					clk_out <= '0';
+					count <= "000";
+				when "101" =>
+					clk_spec <= '1';
 					clk_spec2 <= '0';
 					clk_out <= '0';
 					count <= "000";
-				--when "101" =>
-				--	clk_spec <= '1';
-				--	clk_spec2 <= '0';
-				--	clk_out <= '0';
-				--	count <= "000";
 				when others =>
 					clk_spec <= '0';
 					clk_spec2 <= '0';

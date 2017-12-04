@@ -20,11 +20,11 @@ entity IMController is
 end entity ; -- IMController
 
 architecture arch of IMController is
---signal local_we : std_logic := '1';
+signal local_we : std_logic := '1';
 begin
 	
 	ram2_en <= '0';
-	--ram2_we <= local_we or clk;
+	ram2_we <= local_we or clk;
 	process(input_pc, input_alu, write_data, mem_signal, clk)
 	begin
 		case (mem_signal) is
@@ -32,20 +32,20 @@ begin
 				ram2_data <= write_data;
 				ram2_addr <= "00" & input_alu;
 				ram2_oe <= '1';
-				ram2_we <= clk;
-				--local_we <= '0';
+				--ram2_we <= clk;
+				local_we <= '0';
 			when IM_READ =>
 				ram2_data <= "ZZZZZZZZZZZZZZZZ";
 				ram2_oe <= '0';
-				ram2_we <= '1';
-				--local_we <= '1';
+				--ram2_we <= '1';
+				local_we <= '1';
 				ram2_addr <= "00" & input_alu;
 			when others =>
 				--包括NONE在内的所有其他状态都视为从ram2读指令
 				ram2_data <= "ZZZZZZZZZZZZZZZZ";
 				ram2_oe <= '0';
-				ram2_we <= '1';
-				--local_we <= '1';
+				--ram2_we <= '1';
+				local_we <= '1';
 				ram2_addr <= "00" & input_pc;
 		end case;
 	end process ;
