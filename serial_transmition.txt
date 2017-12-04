@@ -80,7 +80,7 @@ CLEARLINELOOP:
 	
 ;双机通讯
 ;R5用来表示当前正在屏幕上的字符有多少个
-COMUNICATION:
+COMMUNICATION:
 	LI R5 0x0000;本机写缓冲区初始化
 	NOP
 	;循环读入对面串口发来的消息
