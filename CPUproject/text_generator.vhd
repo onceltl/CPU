@@ -83,6 +83,21 @@ ARCHITECTURE behavior OF text_generator IS
 	 SIGNAL display_Cursor,nxtdisplay_Cursor:std_logic;--display or not
 	 SIGNAL Cursor_write_enable:std_logic;
 	 
+   constant STOP_ADDR_WIDTH: integer := 5; --12=5+7; 2^5 rows ; 2^7 column
+   constant STOP_WIDTH: integer := 7;  -- 8 bits per character; 2-bit-hex
+   type stop_type is array (0 to 2**STOP_ADDR_WIDTH-1) of std_logic_vector(STOP_WIDTH-1 downto 0);
+   
+	-- memory signal 8*16
+	
+   signal stop : stop_type := (
+		"1111111","1111111","1111111","1111111","1111111","1111111","1111111","1111111",
+		
+		"1111111","1111111","1111111","1111111","1111111","1111111","1111111","1111111",
+		
+		"1111111","1111111","1111111","1111111","1111111","1111111","1111111","1111111",
+		
+		"1111111","1111111","1111111","1111111","1111111","1111111","1111111","1111111"
+	);
 BEGIN
 
 	 font_unit: font_rom
@@ -110,13 +125,17 @@ BEGIN
 	  com_write_addr <=nowR & nowC;
 	  -- from rom and video_ram to get font bit for multiplexing 
 	  
-	  process(row,column,offset,pixel_x,pixel_y,readC,readR)
+	  process(row,column,offset,pixel_x,pixel_y,readC,readR,stop)
 	  begin
 	    pixel_x(8 downto 0) <= conv_std_logic_vector(row, 9);
 	    pixel_y(9 downto 0) <= conv_std_logic_vector(column, 10);
 	    readR <= pixel_x(8 downto 4)+offset;--/16
 	    readC <= pixel_y(9 downto 3);--/8
-		 com_read_addr <= readR & readC;
+		 if (readC >=stop(conv_integer(readR))) then
+		   com_read_addr <= "000001111111";
+		 else
+			com_read_addr <= readR & readC;
+		 end if;
 	  end process;
 	 
     -- rgb multiplexing
@@ -157,6 +176,11 @@ BEGIN
 				offset_enable <= nxtoffset_enable;
 				count_Cursor <= nxtcount_Cursor;
 				display_Cursor <= nxtdisplay_Cursor;
+				if (write_enable = '1' and ((write_char = "00001101") or (write_char = "00001010"))) then
+					stop(conv_integer(nxtR))<=nxtC;
+				else 
+					stop(conv_integer(nxtR))<=nxtC+"0000001";
+				end if;
 			end if;
 		end if;
 	 end process;
