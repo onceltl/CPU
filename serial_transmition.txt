@@ -77,6 +77,64 @@ CLEARLINELOOP:
 	NOP
 	JR R7
 	NOP
+
+;建立连接
+TOCONNECT:
+	;init sp
+	LI R0 0x00BF
+	SLL R0 R0 0x0000
+	ADDIU R0 0x0020
+	
+	MTSP R0
+
+CONNECTLOOP:
+	MFPC R7
+	ADDIU R7 0x0003	
+	NOP
+	B TESTRSER
+	NOP
+
+	LI R0 0x00BF
+	SLL R0 R0 0x0000
+	;read serial into r1
+	LW R0 R1 0x0000
+	
+	;if recv "10000000" then begin communication
+	LI R2 0x0080
+	CMP R1 R2
+	BTEQZ COMMUNICATION
+	NOP
+	B CONNECTLOOP
+	NOP
+
+;建立连接	
+TOCONNECT:
+	;init sp
+	LI R0 0x00BF
+	SLL R0 R0 0x0000
+	ADDIU R0 0x0020
+	
+	MTSP R0
+
+CONNECTLOOP:
+	MFPC R7
+	ADDIU R7 0x0003	
+	NOP
+	B TESTRSER
+	NOP
+
+	LI R0 0x00BF
+	SLL R0 R0 0x0000
+	;read serial into r1
+	LW R0 R1 0x0000
+	
+	;if recv "10000000" then begin communication
+	LI R2 0x0080
+	CMP R1 R2
+	BTEQZ COMMUNICATION
+	NOP
+	B CONNECTLOOP
+	NOP
 	
 ;双机通讯
 ;R5用来表示当前正在屏幕上的字符有多少个
@@ -178,7 +236,7 @@ UPDATE_BUFFER:
 	LI R0 0x00BF
 	SLL R0 R0 0x0000
 	ADDIU R0 0x0020
-	ADDIU R5 0x0001	;start at 1
+	ADDIU R5 0x0001	;R5 start at 1
 	ADDU R0 R5 R2
 	SW R2 R1 0x0000
 	
