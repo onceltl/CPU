@@ -7,11 +7,11 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : xaw2vhdl
 --  /   /         Filename : ClkGenerator.vhd
--- /___/   /\     Timestamp : 12/03/2017 17:22:42
+-- /___/   /\     Timestamp : 12/04/2017 08:12:55
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: xaw2vhdl-intstyle D:/XilinxWorkspace/CPUThinPad/CPU/CPUproject/ipcore_dir/ClkGenerator.xaw -st ClkGenerator.vhd
+--Command: xaw2vhdl-intstyle C:/Users/Shine/Desktop/Git/CPU/CPUproject/ipcore_dir/ClkGenerator.xaw -st ClkGenerator.vhd
 --Design Name: ClkGenerator
 --Device: xc3s1200e-4fg320
 --
@@ -60,7 +60,7 @@ begin
    
    DCM_SP_INST : DCM_SP
    generic map( CLK_FEEDBACK => "1X",
-            CLKDV_DIVIDE => 10.0,
+            CLKDV_DIVIDE => 2.0,
             CLKFX_DIVIDE => 1,
             CLKFX_MULTIPLY => 5,
             CLKIN_DIVIDE_BY_2 => FALSE,
