@@ -79,7 +79,7 @@ begin
 					clk_spec <= '0';
 					clk_spec2 <= '1';
 					clk_out <= '0';
-					count <= "000";
+					count <= "101";
 				when "101" =>
 					clk_spec <= '1';
 					clk_spec2 <= '0';
